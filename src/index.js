@@ -15,29 +15,39 @@ const Header = () => {
 const exercises1 = 10
 const exercises2 = 7
 const exercises3 = 14
+const part1 = 'Fundamentals of React'
+const part2 = 'Using props to pass data'
+const part3 = 'State of a component'
+
+// This is clearly not an efficient way of producing
+// parts; would like to return to this when I learn more
+
+const Part = (props) => {
+
+  return (
+
+    <div>
+      <h2>Course: {props.part}</h2>
+      <p>Exercises: {props.exercise}</p>
+    </div>
+
+  )
+}
 
 const Content = () => {
-
-  const part1 = 'Fundamentals of React'
-  
-  const part2 = 'Using props to pass data'
-  
-  const part3 = 'State of a component'
-  
 
   return (
   
     <div>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-      
+
+        <hr />
+        <Part part={part1} exercise={exercises1} />
+        <hr />
+        <Part part={part2} exercise={exercises2} />
+        <hr />
+        <Part part={part3} exercise={exercises3} />
+        <hr />
+
     </div>
   
   )
@@ -46,24 +56,24 @@ const Content = () => {
 const Total = () => {
 
   return (
-  <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+
+  <h3>Total number of exercises {exercises1 + exercises2 + exercises3}</h3>
+
   )
-
 }
-
-
 
 const App = () => {
 
-
   return (
+
     <div>
+
       <Header />
       <Content />
       <Total />
-
-      
+  
     </div>
+
   )
 }
 
