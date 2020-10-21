@@ -114,9 +114,15 @@ const State = () => {
   )
 }
 
-  // Quick Test
+  // More useState Practice
 
-  const TestOne = () => {
+  const DisplayStateTwo = props => <p>{props.value}</p>
+
+  const StateTwoButton = (props) => (
+    <button onClick={props.handleClick}>{props.text}</button> 
+  )
+
+  const StateTwo = () => {
 
     const [value, setValue] = useState(10)
   
@@ -126,10 +132,10 @@ const State = () => {
 
     return (
       <div>
-        <p>{value}</p>
-        <button onClick={() => setToValue(1000)}>thousand</button>
-        <button onClick={() => setToValue(0)}>reset to 0</button>
-        <button onClick={() => setToValue(value + 1)}>do another</button>
+        <DisplayStateTwo value={value} />
+        <StateTwoButton handleClick={() => setToValue(1000)} text="thousand" />
+        <StateTwoButton handleClick={() => setToValue(0)} text="reset to 0" />
+        <StateTwoButton handleClick={() => setToValue(value + 1)} text="do another" />
         <br /><br />
         <button onClick={hello('world')}>hello world</button>
         <button onClick={hello('react')}>hello react</button>
@@ -157,7 +163,7 @@ const App = () => {
       <State />
       <p>Touch my buttons 🖕</p>
       <hr />
-      <TestOne />
+      <StateTwo />
       <Footer />
     </div>
   )
