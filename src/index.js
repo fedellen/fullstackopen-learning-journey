@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
-const Header = (props) => {
+const Header = (course) => {
 
   return (
   
-  <h1>Basic {props.course}</h1>
+  <h1>Basic {course.course}</h1>
 
   )
 }
@@ -27,6 +27,8 @@ const Part = (props) => {
 
 const Content = (props) => {
 
+    // Should refactor to utilize loop
+
   return (
 
     <div>
@@ -39,10 +41,15 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
+  
+    let exercise = 0
 
-    // Add all exercise values together
-    // Refactor when knowledge of loops grow
-  let exercise = props.sum[0].exercises + props.sum[1].exercises + props.sum[2].exercises
+    for (var i = 0; i < props.sum.length; i++) {
+
+        // Loop to add exercise totals together
+      exercise = exercise + props.sum[i].exercises
+
+    }
 
   return (
 
