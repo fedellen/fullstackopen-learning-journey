@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Hello = ({ name, age }) => {
@@ -29,7 +29,36 @@ const Footer = () => {
   )
 }
 
-const App = () => {
+const Counter = () => {
+
+    // Counter Practice Session
+  const [ counter, setCounter ] = useState(0)
+  
+  const increaseByOne = () => setCounter(counter + 1)
+  const setToZero = () => setCounter(0)
+  const decreaseByOne = () => setCounter(counter - 1)
+
+  return (
+    <div>
+      <Display counter={counter} />
+      <Button handleClick={increaseByOne} text="plus" />
+      <Button handleClick={setToZero} text="zero" />
+      <Button handleClick={decreaseByOne} text="minus" />
+    </div>
+  )
+}
+
+const Button = ({handleClick, text}) => {
+  return (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+}
+
+const Display = ({counter}) => <p>Counter: {counter} ⏲️</p>
+
+const App = () => {  
   
   const name = 'Peter'
   const age = 10
@@ -41,6 +70,8 @@ const App = () => {
       <Hello name={name} age={age} />
       <Hello name="Douglas" age={74} />
       <Footer />
+      <br />
+      <Counter />
     </div>
   )
 
