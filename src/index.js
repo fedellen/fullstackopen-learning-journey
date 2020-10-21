@@ -1,12 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Hello = (props) => {
+const Hello = ({ name, age }) => {
+
+  const bornYear = () => new Date().getFullYear() - age
 
   return (
+
     <div>
-      <p>Hello {props.name}, this is React 🧬</p>
-      <p>You are {props.age} years old</p>
+      <hr />
+      <br />
+      <p>Hello {name}, this is React 🧬</p>
+      <p>I'm a highly popular JavaScript library.</p>
+      <p>You are currently {age} years old</p>
+      <p>So, you were probably born in {bornYear()} 🎂</p>
+      <br />
     </div>
   )
 
@@ -15,7 +23,8 @@ const Hello = (props) => {
 const Footer = () => {
   return (
     <div>
-      greeting app created by <a href="https://github.com/fedellen">fedellen</a>
+      <hr />
+      <p>greeting app created by <a href="https://github.com/fedellen">fedellen</a></p>
     </div>
   )
 }
