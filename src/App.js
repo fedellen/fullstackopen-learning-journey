@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 
 const App = () => {
-  
+
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { 
+      name: 'Arto Hellas',
+      id: 0
+    }
   ]) 
+
   const [ newName, setNewName ] = useState('')
 
   const handleSubmit = (event) => {
@@ -15,7 +19,8 @@ const App = () => {
     event.preventDefault()
 
     const submitObject = {
-      name: newName
+      name: newName,
+      id: persons.length + 1
     }
 
     setPersons(persons.concat(submitObject))
@@ -35,7 +40,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map(name =>
-        <div>
+        <div key={name.id} >
           {name.name}
         </div>    
       )}
