@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 const SubmissionForm = ({persons, addPerson}) => {
 
   const [ newName, setNewName ] = useState('')
-
   const [ newNumber, setNewNumber ] = useState('')
 
   const handleNumberSubmit = (event) => {
@@ -27,7 +26,6 @@ const SubmissionForm = ({persons, addPerson}) => {
         number: newNumber,
         id: persons.length + 1
       }
-      // setPersons(persons.concat(submitObject))
       addPerson(submitObject)
     }
 
@@ -78,20 +76,23 @@ const App = () => {
 
   const [newFilter, setNewFilter] = useState('')
 
-  const [ showPeople, setShowPeople ] = useState( persons )
 
   const doFilter = (filterValue) => (
     persons.filter(el => el.name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1)
   )
 
+  let showPeople = doFilter(newFilter)
+
   const handleFilter = (event) => {
     setNewFilter(event.target.value)
-    setShowPeople(doFilter(newFilter))
+    showPeople = doFilter(newFilter)
+    console.log(showPeople);
   }
 
   const addPerson = (object) => {
     setPersons(persons.concat(object))
-    setShowPeople(persons)
+    showPeople = doFilter(newFilter)
+    console.log(persons, showPeople);
   }  
 
   return (
