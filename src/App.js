@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 
-const App = () => {
-
-  const [ persons, setPersons ] = useState([
-    { 
-      name: 'Arto Hellas',
-      number: "384-819-5555",
-      id: 0
-    }
-  ]) 
+const SubmissionForm = ({persons, addPerson}) => {
 
   const [ newName, setNewName ] = useState('')
 
@@ -35,33 +27,81 @@ const App = () => {
         number: newNumber,
         id: persons.length + 1
       }
-      setPersons(persons.concat(submitObject))
+      // setPersons(persons.concat(submitObject))
+      addPerson(submitObject)
     }
 
     setNewName('')
     setNewNumber('')
   }
 
+  return(
+    <form onSubmit={addName} >
+      <div>
+        name: <input value={newName} onChange={handleSubmit} />
+      </div>
+      <div>
+        number: <input value={newNumber} onChange={handleNumberSubmit} />
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
+
+const NameList = ({persons}) => (
+  <div>
+    {persons.map(name =>
+      <div key={name.id} >
+        {name.name} {name.number}
+      </div>    
+  )}
+  </div>
+)
+
+const Filter = ({newFilter, handleFilter}) => (
+  <div>
+    filter show with name: <input value={newFilter} onChange={handleFilter}  />
+  </div>
+)
+
+const App = () => {
+
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas',        number: "384-819-5555",   id: 0 },
+    { name: 'Ada Lovelace',       number: '39-44-5323523',  id: 1 },
+    { name: 'Dan Abramov',        number: '12-43-234345',   id: 2 },
+    { name: 'Mary Poppendieck',   number: '39-23-6423122',  id: 3 }
+  ]) 
+
+  const [newFilter, setNewFilter] = useState('')
+
+  const [ showPeople, setShowPeople ] = useState( persons )
+
+  const doFilter = (filterValue) => (
+    persons.filter(el => el.name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1)
+  )
+
+  const handleFilter = (event) => {
+    setNewFilter(event.target.value)
+    setShowPeople(doFilter(newFilter))
+  }
+
+  const addPerson = (object) => {
+    setPersons(persons.concat(object))
+    setShowPeople(persons)
+  }  
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName} >
-        <div>
-          name: <input value={newName} onChange={handleSubmit} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberSubmit} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter newFilter={newFilter} handleFilter={handleFilter} />
+      <h3>Add a new number:</h3>
+      <SubmissionForm persons={persons} addPerson={addPerson} />
       <h2>Numbers</h2>
-      {persons.map(name =>
-        <div key={name.id} >
-          {name.name} {name.number}
-        </div>    
-      )}
+      <NameList persons={showPeople} />
     </div>
   )
 }
