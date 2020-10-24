@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Filter = () => {
+
+  const [ searchValue, newSearchValue ] = useState('')
+
+  let typingTimer = {}
+
+  const handleSearch = (search) => {
+    clearTimeout(typingTimer)
+    newSearchValue(search.target.value)
+    if (searchValue) {
+      typingTimer = setTimeout(console.log('hello', searchValue, typingTimer), 750)}
+    
+  }
+
+  return(
+    <div>Find Countries: <input value={searchValue} onChange={handleSearch} /></div>
+  )
 }
 
-export default App;
+const App = () => {
+  
+
+
+  useEffect(() => {
+    axios
+      .get('https://restcountries.eu/rest/v2/all')
+      .then(response => {
+        console.log(response)
+      })
+  })
+
+  return(
+    <div>
+      <Filter />
+    </div>
+  )
+}
+
+
+export default App
