@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import talkTo from './services/talkTo'
 
 const SubmissionForm = ({persons, addPerson}) => {
 
@@ -71,15 +71,12 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newFilter, setNewFilter ] = useState('')
 
+    // Populate initial Phonebook from server
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    talkTo.getPeople().then(initialPersons => setPersons(initialPersons))
   }, [])
 
-
+  
   const doFilter = (filterValue) => (
     persons.filter(el => el.name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1)
   )
@@ -93,15 +90,13 @@ const App = () => {
   }
 
   const addPerson = (object) => {
-
-    axios
-      .post('http://localhost:3001/persons', object)
-      .then(response => {
-        
-        setPersons(persons.concat(response.data))
-        console.log(response)
-        showPeople = doFilter(newFilter)
-      })
+      // Add person to back end
+    talkTo.addPeople(object).then(response => {
+        // Merge to active hook Array
+      setPersons(persons.concat(response))
+        // Re-filter the content
+      showPeople = doFilter(newFilter)
+    })
   }  
 
   return (
