@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import talkTo from './services/talkTo'
 
-const SubmissionForm = ({persons, addPerson}) => {
+const SubmissionForm = ({persons, addPerson, setPersons}) => {
 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
@@ -15,19 +15,27 @@ const SubmissionForm = ({persons, addPerson}) => {
   }
 
   const addName = (event) => {
+
     event.preventDefault()
 
-    if (persons.find(object => object['name'] === newName)) {
+    const newPerson = { name: newName, number: newNumber }
+    const existingPerson = persons.find( object => object['name'] === newName )
 
-      alert(`${newName} is already in the phonebook`)
+    if (existingPerson) {
 
+      const message = `${newName} is already in the phonebook. Would you like to replace the old number with the new one?`
+
+      if (window.confirm(message)) {
+        talkTo.updatePeople(existingPerson.id, newPerson).then(response => {
+          console.log(response)
+          setPersons(persons.map(person => person.id !== existingPerson.id
+            ? person
+            : response
+          ))
+        })
+      }      
     } else {
-      const submitObject = {
-        name: newName,
-        number: newNumber,
-        id: persons.length + 1
-      }
-      addPerson(submitObject)
+      addPerson(newPerson)
     }
 
     setNewName('')
@@ -101,19 +109,20 @@ const App = () => {
     })
   }  
 
+  
+
   const handleDelete = id => {
 
+      // Get the person
     const person = persons.find(n => n.id === id)
-    console.log(person)
     const confirmMessage = `Are you sure you want to Delete ${person.name} from the Phonebook?`
 
+      // Await browser confirmation
     if (window.confirm(confirmMessage)) {
-      console.log('We did it')
       talkTo.deletePeople(id).then(response => {
-        response.status === 200
+        response.status === 200 // Success status response code
           ? setPersons(persons.filter(i => i !== person))
           : alert('Person could not be deleted.')
-        console.log(response)
       })
     } 
   }
@@ -123,7 +132,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter newFilter={newFilter} handleFilter={handleFilter} />
       <h3>Add a new number:</h3>
-      <SubmissionForm persons={persons} addPerson={addPerson} />
+      <SubmissionForm persons={persons} addPerson={addPerson} setPersons={setPersons} />
       <h2>Numbers</h2>
       {showPeople.map((person, i) =>
         <Name
