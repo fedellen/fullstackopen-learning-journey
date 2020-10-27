@@ -50,13 +50,15 @@ const SubmissionForm = ({persons, addPerson}) => {
 }
 
 
-const NameList = ({persons}) => (
+const Name = ({ person, handleDelete }) => (
+
   <div>
-    {persons.map(name =>
-      <div key={name.id} >
-        {name.name} {name.number}
-      </div>    
-  )}
+    <div>
+      <div>Name: {person.name}</div>
+      <div>Number: {person.number}</div>
+      <button onClick={handleDelete}>Delete Person</button> 
+      <br /><br />
+    </div>
   </div>
 )
 
@@ -99,6 +101,23 @@ const App = () => {
     })
   }  
 
+  const handleDelete = id => {
+
+    const person = persons.find(n => n.id === id)
+    console.log(person)
+    const confirmMessage = `Are you sure you want to Delete ${person.name} from the Phonebook?`
+
+    if (window.confirm(confirmMessage)) {
+      console.log('We did it')
+      talkTo.deletePeople(id).then(response => {
+        response.status === 200
+          ? setPersons(persons.filter(i => i !== person))
+          : alert('Person could not be deleted.')
+        console.log(response)
+      })
+    } 
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -106,7 +125,13 @@ const App = () => {
       <h3>Add a new number:</h3>
       <SubmissionForm persons={persons} addPerson={addPerson} />
       <h2>Numbers</h2>
-      <NameList persons={showPeople} />
+      {showPeople.map((person, i) =>
+        <Name
+          key={i} 
+          person={person}
+          handleDelete={() => handleDelete(person.id)}
+        />
+      )}
     </div>
   )
 }
