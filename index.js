@@ -6,6 +6,13 @@ const morgan = require('morgan')
 app.use(express.json())
 
 
+morgan.token('content', (req, res) => {
+  const body = req.body
+  return JSON.stringify({
+    name: body.name,
+    number: body.number
+  })
+})
 
   // create "middleware"
 app.use(morgan((tokens, req, res) => (
@@ -14,7 +21,8 @@ app.use(morgan((tokens, req, res) => (
     tokens.url(req, res),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms'
+    tokens['response-time'](req, res), 'ms',
+    tokens.content(req, res)
   ].join(' ')
 )))
 
