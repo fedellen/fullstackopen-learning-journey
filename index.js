@@ -1,8 +1,22 @@
 const express = require('express')
 const app = express()
 const PORT = 3001
+const morgan = require('morgan')
 
 app.use(express.json())
+
+
+
+  // create "middleware"
+app.use(morgan((tokens, req, res) => (
+  [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+)))
 
 let persons = [
   {
