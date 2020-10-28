@@ -2,12 +2,12 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "555-AlsoFake",
+      "number": "555-RealFunky",
       "id": 1
     },
     {
       "name": "Ada Lovelace",
-      "number": "555-Very-Real-Number",
+      "number": "555-This-is-sparta",
       "id": 2
     },
     {
