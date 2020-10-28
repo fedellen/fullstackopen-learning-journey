@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const PORT = 3001
 
+app.use(express.json())
+
 let persons = [
   {
     id:     1,
@@ -49,6 +51,38 @@ app.get('/api/persons/:id', (request, response) => {
 	} else {
 		response.status(404).end()
 	}
+})
+
+const createID = () => {
+  return Math.floor(Math.random() * Math.floor(25555555))
+}
+
+app.post('/api/persons', (request, response) => {
+
+  const body = request.body
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: `'name' and 'number' are required properties.`
+    })
+  }
+
+  const person = {
+    id      : createID(),
+    name    : body.name,
+    number  : body.number
+  }
+
+  persons = persons.concat(person)
+  console.log(persons)
+  response.json(person)
+})
+
+app.delete('/api/persons/:id', (body, response) => {
+  const id = Number(body.params.id)
+  persons = persons.filter(person => person.id !== id)
+  console.log('Person deleted.')
+	response.status(204).end()
 })
 
 app.listen(PORT, () => {
