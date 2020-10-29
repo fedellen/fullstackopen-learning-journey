@@ -1,5 +1,5 @@
 import axios from 'axios'
-const location = 'http://localhost:3001/persons'
+const location = '/api/persons'
 
 const getPeople = () => {
     const request = axios.get(location)
@@ -21,4 +21,9 @@ const updatePeople = ( id, newObject ) => {
     return request.then(response => response.data)
 }
 
-export default { getPeople, addPeople, deletePeople, updatePeople }
+export default { 
+    getPeople, 
+    addPeople, 
+    deletePeople, 
+    updatePeople 
+}
