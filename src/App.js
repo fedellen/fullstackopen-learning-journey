@@ -124,7 +124,7 @@ const App = () => {
       // Await browser confirmation
     if (window.confirm(confirmMessage)) {
       talkTo.deletePeople(id).then(response => {
-        if (response.status === 200) {
+        if (response.status === 204) {
           setPersons(persons.filter(i => i !== person))
           message(`${person.name} has been deleted from the Phonebook`, 'green')
         } else {
