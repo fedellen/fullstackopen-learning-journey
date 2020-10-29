@@ -1,10 +1,9 @@
 const express = require('express')
 const app = express()
-const PORT = 3001
 const morgan = require('morgan')
 
 app.use(express.json())
-
+app.use(express.static('build'))
 
 morgan.token('content', (req, res) => {
   const body = req.body
@@ -113,6 +112,7 @@ app.delete('/api/persons/:id', (body, response) => {
 	response.status(204).end()
 })
 
+const PORT = 3001
 app.listen(PORT, () => {
 	console.log( `Server running on port ${PORT}` )
 })
