@@ -2,6 +2,6 @@ POST https://fierce-waters-93630.herokuapp.com/api/persons
 Content-Type: application/json
 
 {
-  "name": "Derek Sonnenberg",
+  "name": "",
   "number": "218-850-0743"
 }

@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+require('dotenv').config()
+const Person = require('./models/person')
 
 app.use(express.json())
 app.use(express.static('build'))
@@ -13,7 +15,7 @@ morgan.token('content', (req, res) => {
   })
 })
 
-  // create "middleware"
+  // create morgan "middleware"
 app.use(morgan((tokens, req, res) => (
   [
     tokens.method(req, res),
@@ -25,91 +27,81 @@ app.use(morgan((tokens, req, res) => (
   ].join(' ')
 )))
 
-let persons = [
-  {
-    id:     1,
-    name:   "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id:     2,
-    name:   "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id:     3,
-    name:   "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id:     4,
-    name:   "Mary Poppendick",
-    number: "39-23-6423122",
-  },
-]
-
 app.get('/info', (request, response) => {
   console.log('welcome to info')
-  response.send(`
+  Person.find({}).then(persons => {
+    response.send(`
     <h1>Welcome to the Phonebook</h1>
     <p>The phonebook currently has info for ${persons.length} people</p>
     <p>${new Date()}</p>
   `)
+	})
 })
 
 app.get('/api/persons', (request, response) => {
-  console.log(persons)
-	response.json(persons)
+	Person.find({}).then(persons => {
+    response.json(persons)
+	})
 })
+
 
 app.get('/api/persons/:id', (request, response) => {
 
+    // Use array position values
   const id = Number(request.params.id)
-	const person = persons.find(person => person.id === id)
-	
-	if (person) {
-		response.json(person)
-	} else {
-		response.status(404).end()
-	}
+  
+  Person.find({}).then(arr => {
+    const person = arr[id]
+    if (person) {
+      console.log('From MongoDB Array: ', person)
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
+  })
 })
 
-const createID = () => {
-  return Math.floor(Math.random() * Math.floor(25555555))
-}
-
+  // Post from front end to MongoDB
 app.post('/api/persons', (request, response) => {
 
   const body = request.body
 
+    // Name and Number must be defined
   if (!body.name || !body.number) {
+    console.log(`name: '${body.name}' number: '${body.number}'  defined?`)
     return response.status(400).json({
-      error: `'name' and 'number' are required properties.`
+      error: `'name' and 'number' are required properties, they must be defined values.`
     })
   }
-
-  if (persons.find(p => body.name === p.name)) {
-    return response.status(400).json({
-      error: `'name' must be a unique value.`
-    })
-  }
-
-  const person = {
-    id      : createID(),
-    name    : body.name,
-    number  : body.number
-  }
-
-  persons = persons.concat(person)
-  console.log(persons)
-  response.json(person)
+    // Make the person
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
+    // Now save that person to DB
+  person.save().then(result => {
+    console.log(`Added ${result.name} (num: ${result.number}) to the Phonebook 🎉`) // Yay
+    response.json(person)
+  })
 })
 
+  // Delete them all!
 app.delete('/api/persons/:id', (body, response) => {
-  const id = Number(body.params.id)
-  persons = persons.filter(person => person.id !== id)
-  console.log('Person deleted.')
-	response.status(204).end()
+ 
+  const id = body.params.id
+
+    // find by ID, a cool Mongoose function (:
+  Person.findByIdAndDelete(id, (err) => {
+    if (err) {
+      console.log(err)
+      response.status(400).json({
+        error: 'An error has occured...'
+      })
+    } else {
+      console.log('Person has been deleted 🍩')
+      response.status(204).end()
+    }  
+  })
 })
 
 const PORT = process.env.PORT || 3001
