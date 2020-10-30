@@ -27,7 +27,8 @@ app.use(morgan((tokens, req, res) => (
   ].join(' ')
 )))
 
-app.get('/info', (request, response) => {
+  // App information screen
+app.get('/info', (request, response, next) => {
   console.log('welcome to info')
   Person.find({}).then(persons => {
     response.send(`
@@ -35,30 +36,34 @@ app.get('/info', (request, response) => {
     <p>The phonebook currently has info for ${persons.length} people</p>
     <p>${new Date()}</p>
   `)
-	})
+  })
+  .catch(err => next(err))
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
 	Person.find({}).then(persons => {
     response.json(persons)
-	})
+  })
+  .catch(err => next(err))
 })
 
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
 
-    // Use array position values
+    // Use array position values for displaying pages
   const id = Number(request.params.id)
   
-  Person.find({}).then(arr => {
-    const person = arr[id]
-    if (person) {
-      console.log('From MongoDB Array: ', person)
-      response.json(person)
-    } else {
-      response.status(404).end()
-    }
+  Person.find({})
+    .then(arr => {
+      const person = arr[id]
+      if (person) {
+        console.log('From MongoDB Array: ', person)
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
   })
+  .catch(err => next(err))
 })
 
   // Post from front end to MongoDB
@@ -86,23 +91,33 @@ app.post('/api/persons', (request, response) => {
 })
 
   // Delete them all!
-app.delete('/api/persons/:id', (body, response) => {
- 
-  const id = body.params.id
+app.delete('/api/persons/:id', (body, response, next) => {
 
-    // find by ID, a cool Mongoose function (:
-  Person.findByIdAndDelete(id, (err) => {
-    if (err) {
-      console.log(err)
-      response.status(400).json({
-        error: 'An error has occured...'
-      })
-    } else {
+  Person.findByIdAndRemove(body.params.id)
+    .then(result => {
       console.log('Person has been deleted 🍩')
       response.status(204).end()
-    }  
-  })
+    })
+    .catch(err => next(err))
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
