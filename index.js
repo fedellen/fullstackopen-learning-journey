@@ -26,22 +26,23 @@ app.get('/api/notes', (request, response) => {
   })
 })
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
+
   const body = request.body
-
-  if (body.content === undefined) {
-    return response.status(400).json({ error: 'content missing' })
-  }
-
   const note = new Note({
     content: body.content,
     important: body.important || false,
     date: new Date(),
   })
 
-  note.save().then(savedNote => {
-    response.json(savedNote.toJSON())
-  })
+  note // Note post basic promise chain
+    .save()
+    .then(savedNote => savedNote.toJSON())
+    .then(savedAndFormattedNote => {
+      response.json(savedAndFormattedNote)
+    })
+    .catch(err => next(err))
+    
 })
 
 app.get('/api/notes/:id', (request, response, next) => {
@@ -53,7 +54,7 @@ app.get('/api/notes/:id', (request, response, next) => {
         response.status(404).end()
       }
     })
-    .catch(error => next(error))
+    .catch(err => next(err))
 })
 
 app.delete('/api/notes/:id', (request, response, next) => {
@@ -90,7 +91,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError' && error.kind == 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
