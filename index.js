@@ -50,12 +50,8 @@ app.get('/api/persons', (request, response, next) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
 
-    // Use array position values for displaying pages
-  const id = Number(request.params.id)
-  
-  Person.find({})
-    .then(arr => {
-      const person = arr[id]
+  Person.findById(request.params.id)
+    .then(person => {
       if (person) {
         console.log('From MongoDB Array: ', person)
         response.json(person)
