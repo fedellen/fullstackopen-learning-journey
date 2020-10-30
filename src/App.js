@@ -23,9 +23,7 @@ const SubmissionForm = ({ persons, addPerson, setPersons, sendNotif }) => {
     const newPerson = { name: newName, number: newNumber }
 
     
-    /*
-    /* Removed feature in latest production build
-    /*
+   
     const existingPerson = persons.find( object => object['name'] === newName )
 
     if (existingPerson) {
@@ -48,9 +46,7 @@ const SubmissionForm = ({ persons, addPerson, setPersons, sendNotif }) => {
     } else {
       addPerson(newPerson)
     }
-    */
 
-    addPerson(newPerson)
     setNewName('')
     setNewNumber('')
   }
