@@ -7,7 +7,7 @@ const Person = require('./models/person')
 app.use(express.json())
 app.use(express.static('build'))
 
-morgan.token('content', (req, res) => {
+morgan.token('content', (req) => {
   const body = req.body
   return JSON.stringify({
     name: body.name,
@@ -15,7 +15,7 @@ morgan.token('content', (req, res) => {
   })
 })
 
-  // create morgan "middleware"
+// create morgan "middleware"
 app.use(morgan((tokens, req, res) => (
   [
     tokens.method(req, res),
@@ -27,7 +27,7 @@ app.use(morgan((tokens, req, res) => (
   ].join(' ')
 )))
 
-  // App information screen
+// App information screen
 app.get('/info', (request, response, next) => {
   console.log('welcome to info')
   Person.find({}).then(persons => {
@@ -37,14 +37,14 @@ app.get('/info', (request, response, next) => {
     <p>${new Date()}</p>
   `)
   })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
 app.get('/api/persons', (request, response, next) => {
-	Person.find({}).then(persons => {
+  Person.find({}).then(persons => {
     response.json(persons)
   })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
 
@@ -58,40 +58,40 @@ app.get('/api/persons/:id', (request, response, next) => {
       } else {
         response.status(404).end()
       }
-  })
-  .catch(err => next(err))
+    })
+    .catch(err => next(err))
 })
 
-  // Post from front end to MongoDB
+// Post from front end to MongoDB
 app.post('/api/persons', (request, response, next) => {
 
   const body = request.body
 
-    // Name and Number must be defined
+  // Name and Number must be defined
   if (!body.name || !body.number) {
     console.log(`name: '${body.name}' number: '${body.number}'  defined?`)
     return response.status(400).json({
-      error: `'name' and 'number' are required properties, they must be defined values.`
+      error: 'name and number are required properties, they must be defined values.'
     })
   }
-    // Make the person
+  // Make the person
   const person = new Person({
     name: body.name,
     number: body.number
   })
-    // Now save that person to DB
+  // Now save that person to DB
   person.save().then(result => {
     console.log(`Added ${result.name} (num: ${result.number}) to the Phonebook 🎉`) // Yay
     response.json(person)
   })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
-  // Delete them all!
+// Delete them all!
 app.delete('/api/persons/:id', (body, response, next) => {
 
   Person.findByIdAndRemove(body.params.id)
-    .then(result => {
+    .then(() => {
       console.log('Person has been deleted 🍩')
       response.status(204).end()
     })
@@ -127,7 +127,7 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
@@ -140,5 +140,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-	console.log( `Server running on port ${PORT}` )
+  console.log( `Server running on port ${PORT}` )
 })
