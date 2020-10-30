@@ -21,9 +21,6 @@ const SubmissionForm = ({ persons, addPerson, setPersons, sendNotif }) => {
     event.preventDefault()
 
     const newPerson = { name: newName, number: newNumber }
-
-    
-   
     const existingPerson = persons.find( object => object['name'] === newName )
 
     if (existingPerson) {
@@ -38,9 +35,8 @@ const SubmissionForm = ({ persons, addPerson, setPersons, sendNotif }) => {
           ))
           sendNotif(`Updated number for ${newName}`, 'green')
         })
-        .catch(error => {
-          sendNotif(`Information for ${newName} has already been removed from the server.`, 'red')
-          setPersons(persons.filter(n => n.id !== existingPerson.id))
+        .catch(err => {
+          sendNotif(err.response.data.error)
         })
       }      
     } else {
@@ -67,8 +63,6 @@ const SubmissionForm = ({ persons, addPerson, setPersons, sendNotif }) => {
 }
 
 
-
-
 const Filter = ({newFilter, handleFilter}) => (
   <div>
     filter show with name: <input value={newFilter} onChange={handleFilter}  />
@@ -84,7 +78,7 @@ const App = () => {
 
     // Use Notification Component
   const message = (text, color) => {
-    setMessageColor(color)
+    color ? setMessageColor(color) : setMessageColor('red')
     setAlertMessage(text)
     setTimeout(() => setAlertMessage(null), 5000)
   }
@@ -109,11 +103,17 @@ const App = () => {
 
   const addPerson = (object) => {
       // Add person to back end
-    talkTo.addPeople(object).then(response => {
-      setPersons(persons.concat(response))
-      showPeople = doFilter(newFilter) // Re-filter the content
-      message(`added ${object.name} to the Phonebook`, 'green')
-    })
+    talkTo
+      .addPeople(object)
+      .then(response => {
+        setPersons(persons.concat(response))
+          // Re-filter the content
+        showPeople = doFilter(newFilter) 
+        message(`added ${object.name} to the Phonebook`, 'green')
+      })
+      .catch(err => {
+        message(err.response.data.error)
+      })
   }  
 
   
