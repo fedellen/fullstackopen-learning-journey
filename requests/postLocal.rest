@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title"   : "Great Blog of Awesome",
-  "author"  : "Master Creator Duke",
-  "url"     : "http://fakeurl.gov",
-  "likes"   : 0
+  "title"   : "Greatest React of Time",
+  "author"  : "Best Author Guy",
+  "url"     : "http://react-is-great.dev",
+  "likes"   : 8
 }
