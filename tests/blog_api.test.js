@@ -114,6 +114,42 @@ test('blogs submitted without urls are not added', async () => {
   expect(blogsAfter).toHaveLength(helper.dummyBlogs.length)
 })
 
+test('blogs are deleted by ID, respond 204', async () => {
+  const blogId = helper.dummyBlogs[0]._id
+
+  await api
+    .delete(`/api/blogs/${blogId}`)
+    .expect(204)
+
+  const blogsAfter = await helper.theBlogs()
+  const allBlogId = blogsAfter.map(b => b.id)
+
+  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length - 1)
+  expect(allBlogId).not.toContain(blogId)
+})
+
+test('blogs can be updated alot by likes', async () => {
+  const blogToUpdate = helper.dummyBlogs[0]
+  const blogId = blogToUpdate._id
+
+  const blog = {
+    title: blogToUpdate.title,
+    author: blogToUpdate.author,
+    url: blogToUpdate.url,
+    likes: 17
+  }
+
+  await api
+    .put(`/api/blogs/${blogId}`)
+    .send(blog)
+    .expect(200)
+
+  const blogsAfter = await helper.theBlogs()
+  const ourBlog = blogsAfter.find(b => b.id === blogId)
+  expect(ourBlog.likes).toBe(17)
+  console.log(ourBlog)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
