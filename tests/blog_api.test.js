@@ -204,6 +204,27 @@ describe('when there is one user to begin with', () => {
     const usersAfter = await helper.theUsers()
     expect(usersAfter).toHaveLength(usersBefore.length)
   })
+
+  test('user creation fails when shorter than 4 characters', async () => {
+    const usersBefore = await helper.theUsers()
+
+    const newUser = {
+      username: 'fed',
+      name: 'Failed It',
+      password: 'secretnumbersyetagain'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('must have 4 or more characters')
+
+    const usersAfter = await helper.theUsers()
+    expect(usersAfter).toHaveLength(usersBefore.length)
+  })
 })
 
 afterAll(() => {
