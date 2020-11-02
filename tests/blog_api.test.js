@@ -4,6 +4,8 @@ const helper = require('./test_helper')
 const app = require ('../app')
 const api = supertest(app)
 const Blog = require ('../models/blog')
+const User = require ('../models/user')
+const bcrypt = require ('bcrypt')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -148,6 +150,60 @@ test('blogs can be updated alot by likes', async () => {
   const ourBlog = blogsAfter.find(b => b.id === blogId)
   expect(ourBlog.likes).toBe(17)
   console.log(ourBlog)
+})
+
+describe('when there is one user to begin with', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('seecrit', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+  test('user creation succeeds', async () => {
+    const usersBefore = await helper.theUsers()
+
+    const newUser = {
+      username: 'fedellen',
+      name: 'Derek R Sonnenberg',
+      password: 'secretnumbers'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAfter = await helper.theUsers()
+    expect(usersAfter).toHaveLength(usersBefore.length + 1)
+
+    const usernames = usersAfter.map(u => u.username)
+    expect(usernames).toContain(newUser.username)
+  })
+
+  test('user creation fails when username exists', async () => {
+    const usersBefore = await helper.theUsers()
+
+    const newUser = {
+      username: 'root',
+      name: 'this is failure',
+      password: 'secretnumbersagain'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('`username` to be unique')
+
+    const usersAfter = await helper.theUsers()
+    expect(usersAfter).toHaveLength(usersBefore.length)
+  })
 })
 
 afterAll(() => {
