@@ -14,7 +14,6 @@ beforeEach(async () => {
   }
 })
 
-
 test('the blogs are json and return the correct amount', async () => {
   await api
     .get('/api/blogs')
@@ -25,4 +24,18 @@ test('the blogs are json and return the correct amount', async () => {
   expect(blogs).toHaveLength(helper.dummyBlogs.length)
 })
 
-afterAll(() => mongoose.connection.close())
+test('specific blog schema uses id rather than __id', async () => {
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogs = await helper.theBlogs()
+  expect(blogs[0].id).toBeDefined()
+  expect(blogs[0]._id).not.toBeDefined()
+})
+
+
+afterAll(() => {
+  mongoose.connection.close()
+})

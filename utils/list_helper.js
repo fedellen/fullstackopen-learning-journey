@@ -1,6 +1,3 @@
-const dummy = (blogs) => {
-  return 1
-}
 
 const totalLikes = (blogs) => {
 
@@ -20,12 +17,12 @@ const mostLikes = (blogs) => {
       authorArray = authorArray.map(a =>
         a.author === existingAuthor.author
           ? { ...a, likes: existingAuthor.likes + blog.likes }
-          : a  
+          : a
       )
     } else {
-      const newAuthor = { 
+      const newAuthor = {
         author: blog.author,
-        likes: blog.likes 
+        likes: blog.likes
       }
       authorArray.push(newAuthor)
     }
@@ -33,28 +30,28 @@ const mostLikes = (blogs) => {
   authorArray = authorArray.sort((a, b) => b.likes - a.likes)
   console.log(authorArray)
   return {
-    author: authorArray[0].author, 
+    author: authorArray[0].author,
     likes: authorArray[0].likes
   }
 }
 
 const mostBlogs = (blogs) => {
 
-    // Pre-define array
+  // Pre-define array
   let authorArray = []
 
   blogs.forEach(blog => {
 
-    const existingAuthor = authorArray.find(author => 
-       author.author === blog.author 
+    const existingAuthor = authorArray.find(author =>
+      author.author === blog.author
     )
-      // If exist, add one to blogs value
+    // If exist, add one to blogs value
     if (existingAuthor) {
-      authorArray = authorArray.map(a => 
+      authorArray = authorArray.map(a =>
         a.author === existingAuthor.author
           ? { ...a, blogs: existingAuthor.blogs + 1 }
           : a
-        )
+      )
     } else {
       const newAuthor = {
         author: blog.author,
@@ -64,7 +61,7 @@ const mostBlogs = (blogs) => {
     }
   }) // End of forEach Loop
 
-    // Sort the array, return top Blogger 🖋
+  // Sort the array, return top Blogger 🖋
   authorArray = authorArray.sort((a, b) => b.blogs - a.blogs)
   return {
     author: authorArray[0].author,
@@ -73,7 +70,7 @@ const mostBlogs = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
-  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes) 
+  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
   return {
     title: sortedBlogs[0].title,
     author: sortedBlogs[0].author,
@@ -85,6 +82,5 @@ module.exports = {
   favoriteBlog,
   totalLikes,
   mostBlogs,
-  mostLikes,
-  dummy
+  mostLikes
 }
