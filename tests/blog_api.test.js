@@ -7,14 +7,88 @@ const Blog = require ('../models/blog')
 const User = require ('../models/user')
 const bcrypt = require ('bcrypt')
 
+const login = helper.login
+
 beforeEach(async () => {
+
   await Blog.deleteMany({})
 
   for (let blog of helper.dummyBlogs) {
     let blogObject = new Blog(blog)
     await blogObject.save()
   }
+
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash('seecrit', 10)
+  const user = new User({ username: 'root', passwordHash })
+
+  await user.save()
 })
+
+test('a user can log in', async () => {
+
+  const user = await api
+    .post('/api/login')
+    .send(login)
+    .expect(200)
+
+  expect(user.body.username).toBe('root')
+})
+
+test('a user can create a blog', async () => {
+
+  const user = await api
+    .post('/api/login')
+    .send(login)
+    .expect(200)
+
+  const newBlog = {
+    title: 'Jest testing is very easy!',
+    author: 'Derek R Sonnenberg',
+    url: 'https://pixelpajamastudios.com/jest-testing-is-easy',
+    likes: 17,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .set('Authorization', 'bearer ' + user.body.token)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfter = await helper.theBlogs()
+  const blogTitles = blogsAfter.map(b => b.title)
+
+  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length + 1)
+  expect(blogTitles).toContain('Jest testing is very easy!')
+
+})
+
+test('a non-user can not create a blog, response 401', async () => {
+
+  const newBlog = {
+    title: 'Jest testing is very easy!',
+    author: 'Derek R Sonnenberg',
+    url: 'https://pixelpajamastudios.com/jest-testing-is-easy',
+    likes: 17,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfter = await helper.theBlogs()
+  const blogTitles = blogsAfter.map(b => b.title)
+
+  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length)
+  expect(blogTitles).not.toContain('Jest testing is very easy!')
+
+})
+
+
 
 test('the blogs are json and return the correct amount', async () => {
   await api
@@ -37,29 +111,12 @@ test('specific blog schema uses id rather than __id', async () => {
   expect(blogs[0]._id).not.toBeDefined()
 })
 
-test('correctly saves blog content to the list', async () => {
+test('blog submitted without likes value default to 0 likes', async () => {
 
-  const newBlog = {
-    title: 'Jest testing is very easy!',
-    author: 'Derek R Sonnenberg',
-    url: 'https://pixelpajamastudios.com/jest-testing-is-easy',
-    likes: 17,
-  }
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-
-  const blogsAfter = await helper.theBlogs()
-  const blogTitles = blogsAfter.map(b => b.title)
-
-  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length + 1)
-  expect(blogTitles).toContain('Jest testing is very easy!')
-})
-
-test('blog submitted without likes value defaults to 0', async () => {
+  const user = await api
+    .post('/api/login')
+    .send(login)
+    .expect(200)
 
   const newBlog = {
     title: 'Supertest!',
@@ -70,6 +127,7 @@ test('blog submitted without likes value defaults to 0', async () => {
   await api
     .post('/api/blogs')
     .send(newBlog)
+    .set('Authorization', 'bearer ' + user.body.token)
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
@@ -82,24 +140,13 @@ test('blog submitted without likes value defaults to 0', async () => {
   expect(theNewBlog.likes).toBe(0)
 })
 
-test('blogs submitted without titles are not added', async () => {
-
-  const noTitleBlog = {
-    author: 'Derek R Sonnenberg',
-    url: 'https://pixelpajamastudios.com/urlthings',
-    likes: 18
-  }
-
-  await api
-    .post('/api/blogs')
-    .send(noTitleBlog)
-    .expect(400)
-
-  const blogsAfter = await helper.theBlogs()
-  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length)
-})
-
 test('blogs submitted without urls are not added', async () => {
+
+
+  const user = await api
+    .post('/api/login')
+    .send(login)
+    .expect(200)
 
   const noUrlBlog = {
     title: 'Space is lovely.',
@@ -110,24 +157,44 @@ test('blogs submitted without urls are not added', async () => {
   await api
     .post('/api/blogs')
     .send(noUrlBlog)
+    .set('Authorization', 'bearer ' + user.body.token)
     .expect(400)
 
   const blogsAfter = await helper.theBlogs()
   expect(blogsAfter).toHaveLength(helper.dummyBlogs.length)
 })
 
-test('blogs are deleted by ID, respond 204', async () => {
-  const blogId = helper.dummyBlogs[0]._id
+test('blogs are deleted by ID, respond with 204', async () => {
+
+  const user = await api
+    .post('/api/login')
+    .send(login)
+    .expect(200)
+
+  const newBlog = {
+    title: 'Jest testing is very easy!',
+    author: 'Derek R Sonnenberg',
+    url: 'https://pixelpajamastudios.com/jest-testing-is-easy',
+    likes: 17,
+  }
+
+  const blog = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .set('Authorization', 'bearer ' + user.body.token)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
   await api
-    .delete(`/api/blogs/${blogId}`)
+    .delete(`/api/blogs/${blog.body.id}`)
+    .set('Authorization', 'bearer ' + user.body.token)
     .expect(204)
 
   const blogsAfter = await helper.theBlogs()
   const allBlogId = blogsAfter.map(b => b.id)
 
-  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length - 1)
-  expect(allBlogId).not.toContain(blogId)
+  expect(blogsAfter).toHaveLength(helper.dummyBlogs.length)
+  expect(allBlogId).not.toContain(blog.body.id)
 })
 
 test('blogs can be updated alot by likes', async () => {
@@ -149,18 +216,9 @@ test('blogs can be updated alot by likes', async () => {
   const blogsAfter = await helper.theBlogs()
   const ourBlog = blogsAfter.find(b => b.id === blogId)
   expect(ourBlog.likes).toBe(17)
-  console.log(ourBlog)
 })
 
 describe('when there is one user to begin with', () => {
-  beforeEach(async () => {
-    await User.deleteMany({})
-
-    const passwordHash = await bcrypt.hash('seecrit', 10)
-    const user = new User({ username: 'root', passwordHash })
-
-    await user.save()
-  })
 
   test('user creation succeeds', async () => {
     const usersBefore = await helper.theUsers()
