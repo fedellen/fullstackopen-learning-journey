@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title"   : "Greatest React of Time",
-  "author"  : "Best Author Guy",
-  "url"     : "http://react-is-great.dev",
-  "likes"   : 8
+  "title"   : "Fundamentals of React Native",
+  "author"  : "LetsApp Dude",
+  "url"     : "http://best-react-native-things.com",
+  "likes"   : 12
 }
