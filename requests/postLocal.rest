@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZGVsbGVuIiwiaWQiOiI1ZmEwODUwYmRkNmNiMzk5NDNlMzdhMmMiLCJpYXQiOjE2MDQzNzAzMzN9.9EcPr1wTtgWMtxWHj4NElscs5T9GcEhA8wYojI3SpVk
 
 {
-  "title"   : "Fundamentals of React Native",
-  "author"  : "LetsApp Dude",
-  "url"     : "http://best-react-native-things.com",
-  "likes"   : 12
+  "title"   : "Indie games are good",
+  "author"  : "Derek R Sonnenberg",
+  "url"     : "http://the-indie-games-are-great.com",
+  "likes"   : 4
 }
