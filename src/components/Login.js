@@ -3,7 +3,8 @@ import loginService from '../services/login'
 import blogsService from '../services/blogs'
 
 const Login = ({
-  setUser
+  setUser,
+  newMessage
 }) => {
 
   const [username, setUsername] = useState('')
@@ -23,10 +24,11 @@ const Login = ({
     blogsService.setToken(user.token)
 
     setUser(user)
+    newMessage(`Welcome back ${user.name}`, 'green')
     setUsername('')
     setPassword('')
     } catch (err) {
-      // setErrorMessage('Wrong credentials :', err)
+      newMessage('Wrong username or password credentials', 'red')
     }
   }
 
