@@ -26,8 +26,9 @@ const App = () => {
     blogService.getAll().then(blogs => {
       const formattedBlogs = blogs.map(b => {
         return { ...b, user: b.user.id }
-      }) 
-      setBlogs( formattedBlogs )
+      })
+      const sortedBlogs = formattedBlogs.sort((a, b) => b.likes - a.likes) 
+      setBlogs( sortedBlogs )
     })  
   }, [])
 
