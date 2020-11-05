@@ -3,9 +3,11 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 
 const App = () => {
+
   const [ blogs, setBlogs ] = useState([])
   const [ user, setUser ] = useState(null)
   const [ message, setMessage ] = useState(null)
@@ -19,12 +21,17 @@ const App = () => {
     }, 5000)
   }
 
+  // Get the blogs, format array to better use API
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then(blogs => {
+      const formattedBlogs = blogs.map(b => {
+        return { ...b, user: b.user.id }
+      }) 
+      setBlogs( formattedBlogs )
+    })  
   }, [])
 
+  // Check if user is logged in, set token if true...
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('blogUserLogin')
 
@@ -34,6 +41,33 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const addBlog = async blogObject => {
+
+    try {
+      const blog = await blogService.createBlog(blogObject)
+      setBlogs(blogs.concat(blog))
+      newMessage(`${blog.title} by ${blog.author} has been added!`, 'green')
+      
+    } catch (exception) {
+      newMessage('Blog could not be added...')
+    }
+  }
+
+  const likeBlog = async blogObject => {
+
+    try {
+      console.log(blogObject)
+      const blog = await blogService.likeBlog(blogObject)
+      setBlogs(blogs.map(b => b.id !== blogObject.id
+        ? b
+        : blog
+      ))
+      newMessage(`You liked ${blog.title} by ${blog.author}!`, 'blue')
+    } catch (exception) {
+      newMessage('Blog could not be liked...')
+    }
+  }
 
   const handleLogout = () => {
     window.localStorage.removeItem('blogUserLogin')
@@ -50,11 +84,13 @@ const App = () => {
           {user.name} is logged in<br />
           <button onClick={handleLogout}>Logout</button>
           <hr />
-          <NewBlog blogs={blogs} setBlogs={setBlogs} newMessage={newMessage} />
+          <Togglable buttonLabel={'Add New Blog'}>
+            <NewBlog addBlog={addBlog} />
+          </Togglable>
           <hr />
-          <h2>blogs</h2>
+          <h2>The Blogs</h2>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
           )}
         </div>
       }
