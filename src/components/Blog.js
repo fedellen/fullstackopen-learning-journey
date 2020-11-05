@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const Blog = ({ blog, likeBlog }) => { 
+const Blog = ({ blog, likeBlog, handleDelete, user }) => { 
 
   const [ hidden, setHidden ] = useState(true)
 
@@ -39,6 +39,9 @@ const Blog = ({ blog, likeBlog }) => {
               <button onClick={() => setHidden(true)}>Hide</button>
               <p>{blog.url}</p>
               <p>Likes: {blog.likes}<button onClick={() => handleLike(blog)}>💖</button></p>
+              { user.id === blog.user &&
+                <button onClick={() => handleDelete(blog)}>remove blog</button>
+              }
             </div>
         }
       </div>

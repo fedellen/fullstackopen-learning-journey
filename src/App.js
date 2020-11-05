@@ -58,7 +58,6 @@ const App = () => {
   const likeBlog = async blogObject => {
 
     try {
-      console.log(blogObject)
       const blog = await blogService.likeBlog(blogObject)
       setBlogs(blogs.map(b => b.id !== blogObject.id
         ? b
@@ -67,6 +66,20 @@ const App = () => {
       newMessage(`You liked ${blog.title} by ${blog.author}!`, 'blue')
     } catch (exception) {
       newMessage('Blog could not be liked...')
+    }
+  }
+
+  const handleDelete = async blog => {
+
+    if (window.confirm(`Are you sure you want to remove ${blog.title} by ${blog.author}`))
+    try {
+      await blogService.deleteBlog(blog.id)
+      setBlogs(blogs.filter(b => b.id !== blog.id
+      ))
+      newMessage('Blog has been deleted')
+    } catch (exception) {
+      console.log(`Here is the exception: ${exception}`)
+      newMessage('Blog could not be deleted...')
     }
   }
 
@@ -80,7 +93,7 @@ const App = () => {
     <div>
       <Notification message={message} messageColor={messageColor} />
       {user === null
-        ? <Login user={user} setUser={setUser} newMessage={newMessage} />  :
+        ? <Login setUser={setUser} newMessage={newMessage} />  :
         <div>
           {user.name} is logged in<br />
           <button onClick={handleLogout}>Logout</button>
@@ -91,7 +104,7 @@ const App = () => {
           <hr />
           <h2>The Blogs</h2>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} user={user} handleDelete={handleDelete} />
           )}
         </div>
       }
