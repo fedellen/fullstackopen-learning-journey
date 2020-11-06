@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const NewBlog = ({ addBlog }) => {
-  
+
   const [ title, setTitle ] = useState('')
   const [ author, setAuthor ] = useState('')
   const [ url, setUrl ] = useState('')
@@ -12,7 +12,7 @@ const NewBlog = ({ addBlog }) => {
     const blogObject = {
       title   : title,
       author  : author,
-      url     : url 
+      url     : url
     }
 
     addBlog(blogObject)
@@ -20,7 +20,7 @@ const NewBlog = ({ addBlog }) => {
     setAuthor('')
     setUrl('')
   }
-  
+
   return(
     <div>
       <h2>Create New</h2>
@@ -35,4 +35,4 @@ const NewBlog = ({ addBlog }) => {
   )
 }
 
-export default NewBlog 
+export default NewBlog

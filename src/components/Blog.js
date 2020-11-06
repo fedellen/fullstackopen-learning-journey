@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const Blog = ({ blog, likeBlog, handleDelete, user }) => { 
+const Blog = ({ blog, likeBlog, handleDelete, user }) => {
 
   const [ hidden, setHidden ] = useState(true)
 
@@ -23,7 +23,7 @@ const Blog = ({ blog, likeBlog, handleDelete, user }) => {
       likes: blog.likes + 1,
       id: blog.id
     }
-    
+
     likeBlog(likedBlog)
   }
 
@@ -33,19 +33,19 @@ const Blog = ({ blog, likeBlog, handleDelete, user }) => {
         {blog.title} {blog.author}
       </div>
       <div>
-        { hidden 
+        { hidden
           ? <button onClick={() => setHidden(false)}>View</button>
           : <div>
-              <button onClick={() => setHidden(true)}>Hide</button>
-              <p>{blog.url}</p>
-              <p>Likes: {blog.likes}<button onClick={() => handleLike(blog)}>💖</button></p>
-              { user.id === blog.user &&
+            <button onClick={() => setHidden(true)}>Hide</button>
+            <p>{blog.url}</p>
+            <p>Likes: {blog.likes}<button onClick={() => handleLike(blog)}>💖</button></p>
+            { user.id === blog.user &&
                 <button onClick={() => handleDelete(blog)}>remove blog</button>
-              }
-            </div>
+            }
+          </div>
         }
       </div>
     </div>
-)}
+  )}
 
 export default Blog

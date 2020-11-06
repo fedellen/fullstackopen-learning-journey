@@ -27,9 +27,9 @@ const App = () => {
       const formattedBlogs = blogs.map(b => {
         return { ...b, user: b.user.id }
       })
-      const sortedBlogs = formattedBlogs.sort((a, b) => b.likes - a.likes) 
+      const sortedBlogs = formattedBlogs.sort((a, b) => b.likes - a.likes)
       setBlogs( sortedBlogs )
-    })  
+    })
   }, [])
 
   // Check if user is logged in, set token if true...
@@ -49,7 +49,7 @@ const App = () => {
       const blog = await blogService.createBlog(blogObject)
       setBlogs(blogs.concat(blog))
       newMessage(`${blog.title} by ${blog.author} has been added!`, 'green')
-      
+
     } catch (exception) {
       newMessage('Blog could not be added...')
     }
@@ -72,15 +72,15 @@ const App = () => {
   const handleDelete = async blog => {
 
     if (window.confirm(`Are you sure you want to remove ${blog.title} by ${blog.author}`))
-    try {
-      await blogService.deleteBlog(blog.id)
-      setBlogs(blogs.filter(b => b.id !== blog.id
-      ))
-      newMessage('Blog has been deleted')
-    } catch (exception) {
-      console.log(`Here is the exception: ${exception}`)
-      newMessage('Blog could not be deleted...')
-    }
+      try {
+        await blogService.deleteBlog(blog.id)
+        setBlogs(blogs.filter(b => b.id !== blog.id
+        ))
+        newMessage('Blog has been deleted')
+      } catch (exception) {
+        console.log(`Here is the exception: ${exception}`)
+        newMessage('Blog could not be deleted...')
+      }
   }
 
   const handleLogout = () => {
