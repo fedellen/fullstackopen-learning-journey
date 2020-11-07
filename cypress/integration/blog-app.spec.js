@@ -8,7 +8,14 @@ describe('Blog App', function() {
       password  : 'password' 
     }
 
+    const secondUser = {
+      name      : 'Freddy', 
+      username  : 'freddydudeguy',
+      password  : 'password' 
+    }
+
     cy.request('POST', 'http://localhost:3001/api/users', user)
+    cy.request('POST', 'http://localhost:3001/api/users', secondUser)
     cy.visit('http://localhost:3000')
   })
 
@@ -36,7 +43,7 @@ describe('Blog App', function() {
     })
   })
 
-  describe.only('When user is logged in', function() {
+  describe('When user is logged in', function() {
 
     beforeEach(function() {
       cy.get('input:first').type('fedellen')
@@ -58,6 +65,54 @@ describe('Blog App', function() {
       cy.contains('Best Writer Ever')
     })
 
-    
+    describe('There are Blog posts created by multiple users', function() {
+      beforeEach(function() {
+
+        cy.contains('Add New Blog').click()
+
+        cy.get('#title').type('The Best Blog Ever')
+        cy.get('#author').type('Best Writer Ever')
+        cy.get('#url').type('www.best-blog-ever.com/best')
+
+        cy.get('#createBlog').click()
+
+        cy.contains('Logout').click()
+
+
+        cy.get('input:first').type('freddydudeguy')
+        cy.get('input:last').type('password')
+        cy.contains('login').click()
+
+        cy.contains('Add New Blog').click()
+
+
+        cy.get('#title').type('The Second Best Blog Ever')
+        cy.get('#author').type('Second Best Writer Ever')
+        cy.get('#url').type('www.best-blog-ever.com/second-best')
+
+        cy.get('#createBlog').click()
+      })
+
+      it('blogs created by user can be deleted', function() {
+        cy.get('#theBlogs').contains('Second Best Writer Ever')
+          .parent().as('theBlog')
+        cy.get('@theBlog').find('button').click()
+        cy.get('@theBlog').contains('remove blog').click()
+
+        cy.contains('Blog has been deleted')
+      })
+
+      it.only('blogs created by others cannot be deleted', function() {
+        cy.get('#theBlogs').contains('The Best Blog Ever')
+          .parent().as('theBlog')
+        cy.get('@theBlog').find('button').click()
+
+        cy.get('@theBlog').contains('remove blog').should('not.exist')
+
+      })
+    })
+      
+      
+
   })
 })
