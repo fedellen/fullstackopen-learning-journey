@@ -25,14 +25,16 @@ const NewBlog = ({ addBlog }) => {
     <div>
       <h2>Create New</h2>
       <form onSubmit={handleAddBlog}>
-        Title: <input value={title} onChange={({ target }) => setTitle(target.value)} /><br />
-        Author: <input value={author} onChange={({ target }) => setAuthor(target.value)} /><br />
-        Url: <input value={url} onChange={({ target }) => setUrl(target.value)}  /><br />
+        Title: <input id='title' value={title} onChange={({ target }) => setTitle(target.value)} /><br />
+        Author: <input id='author' value={author} onChange={({ target }) => setAuthor(target.value)} /><br />
+        Url: <input id='url' value={url} onChange={({ target }) => setUrl(target.value)}  /><br />
         <button type="submit">Create</button>
       </form>
     </div>
 
   )
 }
+
+
 
 export default NewBlog
