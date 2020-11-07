@@ -27,8 +27,16 @@ const Blog = ({ blog, likeBlog, handleDelete, user }) => {
     likeBlog(likedBlog)
   }
 
+  const deleteButton = () => {
+    if (user) {
+      if (user.id === blog.user) {
+        return <button onClick={() => handleDelete(blog)}>remove blog</button>
+      }
+    }
+  }
+
   return(
-    <div style={blogStyle}>
+    <div className='theBlog' style={blogStyle}>
       <div>
         {blog.title} {blog.author}
       </div>
@@ -39,9 +47,7 @@ const Blog = ({ blog, likeBlog, handleDelete, user }) => {
             <button onClick={() => setHidden(true)}>Hide</button>
             <p>{blog.url}</p>
             <p>Likes: {blog.likes}<button onClick={() => handleLike(blog)}>💖</button></p>
-            { user.id === blog.user &&
-                <button onClick={() => handleDelete(blog)}>remove blog</button>
-            }
+            { deleteButton() }
           </div>
         }
       </div>
