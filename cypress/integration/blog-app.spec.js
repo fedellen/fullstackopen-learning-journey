@@ -102,7 +102,7 @@ describe('Blog App', function() {
         cy.contains('Blog has been deleted')
       })
 
-      it.only('blogs created by others cannot be deleted', function() {
+      it('blogs created by others cannot be deleted', function() {
         cy.get('#theBlogs').contains('The Best Blog Ever')
           .parent().as('theBlog')
         cy.get('@theBlog').find('button').click()
