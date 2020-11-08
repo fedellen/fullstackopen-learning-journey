@@ -1,4 +1,5 @@
 import React from 'react'
+import CreateNew from './components/CreateNew'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from './reducers/anecdoteReducer'
 
@@ -21,11 +22,7 @@ const App = () => {
           </div>
         </div>
       )}
-      <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
-      </form>
+      <CreateNew />
     </div>
   )
 }
