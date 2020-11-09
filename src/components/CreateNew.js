@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { notification, endNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
 
 
 const CreateNew = () => {
@@ -12,9 +11,7 @@ const CreateNew = () => {
     e.preventDefault()
     const anecdote = e.target.anecdote.value
     e.target.anecdote.value = ''
-    const newAnecdote = await anecdoteService.createNew(anecdote)
-    console.log(newAnecdote)
-    dispatch(createAnecdote(newAnecdote))
+    dispatch(createAnecdote(anecdote))
 
       // Do a notification message -- needs reusable refactor? 
     dispatch(notification(`you created a new anecdote: '${anecdote}'`))
