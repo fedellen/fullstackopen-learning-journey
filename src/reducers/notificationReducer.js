@@ -1,11 +1,31 @@
-const initialValue = 'We have the cake 🎂'
+const notificationReducer = ( state = '', action ) => {
 
-const notificationReducer = ( state = initialValue, action ) => {
+  switch(action.type) {
 
-  return state
+    case 'NOTIFICATION':
+      return action.text
 
+    case 'END':
+      return ''
+
+    default: 
+      return state
+  }
 }
 
-// export const notify = () => {}
+
+
+export const notification = text => {
+  return {
+    type: 'NOTIFICATION',
+    text 
+  }
+}
+
+export const endNotification = () => {
+  return {
+    type: 'END'
+  }
+}
 
 export default notificationReducer
