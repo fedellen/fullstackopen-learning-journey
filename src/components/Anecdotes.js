@@ -24,6 +24,8 @@ const Anecdotes = () => {
 
   const filteredAnecdotes = sortedAnecdotes.filter(anecdote => {
     const content = anecdote.content
+    console.log(`content: ${content} and anecdote ${anecdote}`)
+
     const index = content.toLowerCase().indexOf(filter.toLowerCase())
     return index !== -1
   })
