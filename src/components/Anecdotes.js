@@ -20,20 +20,20 @@ const Anecdotes = () => {
 
   const filter = useSelector(state => state.filter)
 
-  console.log(filter)
 
   const filteredAnecdotes = sortedAnecdotes.filter(anecdote => {
     const content = anecdote.content
-    console.log(`content: ${content} and anecdote ${anecdote}`)
 
     const index = content.toLowerCase().indexOf(filter.toLowerCase())
     return index !== -1
   })
 
-  console.log(filteredAnecdotes)
 
   const voteFor = anecdote => {
-    dispatch(voteAnecdote(anecdote.id))
+
+    dispatch(voteAnecdote({ ...anecdote, votes: anecdote.votes + 1 }))
+
+      // Notification to be refactored
     dispatch(notification(`you voted for anecdote: '${anecdote.content}'`))
     setTimeout(() => {
       dispatch(endNotification())
