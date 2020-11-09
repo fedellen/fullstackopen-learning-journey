@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import { notification, endNotification } from '../reducers/notificationReducer'
+import { notify } from '../reducers/notificationReducer'
 
 
 const CreateNew = () => {
@@ -12,14 +12,7 @@ const CreateNew = () => {
     const anecdote = e.target.anecdote.value
     e.target.anecdote.value = ''
     dispatch(createAnecdote(anecdote))
-
-      // Do a notification message -- needs reusable refactor? 
-    dispatch(notification(`you created a new anecdote: '${anecdote}'`))
-    setTimeout(() => {
-      dispatch(endNotification())
-    }, 5000)
-
-
+    dispatch(notify(`you created a new anecdote: '${anecdote}'`, 5))
   }
 
 

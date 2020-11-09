@@ -3,10 +3,13 @@ const notificationReducer = ( state = '', action ) => {
   switch(action.type) {
 
     case 'NOTIFICATION':
-      return action.text
+      return action.data
 
     case 'END':
-      return ''
+      if (action.id === state.id) {
+        return ''
+      }
+      return state
 
     default: 
       return state
@@ -14,17 +17,28 @@ const notificationReducer = ( state = '', action ) => {
 }
 
 
+let notifyId = 0
+export const notify = ( text, seconds ) => {
+  return dispatch => {
+    const id = notifyId++
+    dispatch(notification(id, text))
 
-export const notification = text => {
-  return {
-    type: 'NOTIFICATION',
-    text 
+    console.log(seconds)
+    const time = seconds * 1000
+    console.log(time)
+    setTimeout(() => {
+      dispatch(endNotification(id))
+    }, time)
   }
 }
 
-export const endNotification = () => {
+const notification = (id, text) => {
+  return { type: 'NOTIFICATION', data: { id: id, text: text } }
+} 
+
+const endNotification = (id) => {
   return {
-    type: 'END'
+    type: 'END', id
   }
 }
 
