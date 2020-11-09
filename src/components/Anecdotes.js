@@ -13,7 +13,10 @@ const Anecdote = ({ anecdote, handleClick }) => (
 
 const Anecdotes = props => {
 
-  console.log(props)
+  const voteFor = anecdote => {
+    props.voteAnecdote({ ...anecdote, votes: anecdote.votes + 1 })
+    props.notify(`you voted for anecdote: '${anecdote.content}'`, 5)
+  }
 
   return(
     <div>
@@ -21,7 +24,7 @@ const Anecdotes = props => {
         <Anecdote 
           key={anecdote.id}
           anecdote={anecdote}
-          handleClick={() => props.voteAnecdote(anecdote)}
+          handleClick={() => voteFor(anecdote)}
         />  
       )}
     </div>
@@ -30,6 +33,8 @@ const Anecdotes = props => {
 
 const mapStateToProps = state => {
 
+  // Possible spaghetti code ahead
+  
   if ( state.anecdote ) {
 
     const sortedAnecdotes = state.anecdote.sort((a, b) => b.votes - a.votes)
