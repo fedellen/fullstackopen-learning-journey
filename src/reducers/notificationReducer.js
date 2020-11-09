@@ -23,9 +23,7 @@ export const notify = ( text, seconds ) => {
     const id = notifyId++
     dispatch(notification(id, text))
 
-    console.log(seconds)
     const time = seconds * 1000
-    console.log(time)
     setTimeout(() => {
       dispatch(endNotification(id))
     }, time)
