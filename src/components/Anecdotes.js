@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { notify } from '../reducers/notificationReducer'
 
@@ -11,41 +11,55 @@ const Anecdote = ({ anecdote, handleClick }) => (
   </div>
 )
 
-const Anecdotes = () => {
+const Anecdotes = props => {
 
-  const anecdotes = useSelector(state => state.anecdote)
-  const dispatch = useDispatch()
-
-  const sortedAnecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
-
-  const filter = useSelector(state => state.filter)
-
-
-  const filteredAnecdotes = sortedAnecdotes.filter(anecdote => {
-    const content = anecdote.content
-
-    const index = content.toLowerCase().indexOf(filter.toLowerCase())
-    return index !== -1
-  })
-
-
-  const voteFor = anecdote => {
-
-    dispatch(voteAnecdote({ ...anecdote, votes: anecdote.votes + 1 }))
-    dispatch(notify(`you voted for anecdote: '${anecdote.content}'`, 5))
-  }
+  console.log(props)
 
   return(
     <div>
-      {filteredAnecdotes.map(anecdote =>
+      {props.anecdotes.map(anecdote =>
         <Anecdote 
           key={anecdote.id}
           anecdote={anecdote}
-          handleClick={() => voteFor(anecdote)}
+          handleClick={() => props.voteAnecdote(anecdote)}
         />  
       )}
     </div>
   )
 }
 
-export default Anecdotes
+const mapStateToProps = state => {
+
+  if ( state.anecdote ) {
+
+    const sortedAnecdotes = state.anecdote.sort((a, b) => b.votes - a.votes)
+
+    if ( state.filter === '' ) {
+      return { anecdotes: sortedAnecdotes }
+    }
+
+    const filterAnecdotes = (arr, filter) => {
+      return arr.filter(a => a.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+    }
+
+    return { 
+      anecdotes: filterAnecdotes(sortedAnecdotes, state.filter)
+    }
+  }
+
+  return { anecdotes: state.anecdote }
+}
+
+
+
+const mapDispatchToProps = {
+  voteAnecdote,
+  notify
+}
+
+const ConnectedAnecdotes = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Anecdotes)
+
+export default ConnectedAnecdotes
