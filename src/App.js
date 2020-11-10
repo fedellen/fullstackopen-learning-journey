@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+require('dotenv').config()
+const api_key = process.env.REACT_APP_API_KEY_WEATHER
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -18,30 +20,39 @@ const useField = (type) => {
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
-  useEffect()
+  console.log('Hello useCountry')
+  const test = 'nepal'
+  console.log(name)
+
+  useEffect(() => {
+    console.log('Hello useEffect')
+    if (name) {
+      axios
+        .get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
+        .then((res) => {
+          console.log(res.data)
+          setCountry(res.data[0])
+        })
+        .catch((err) => setCountry(null))
+    }
+  }, [name])
 
   return country
 }
 
 const Country = ({ country }) => {
   if (!country) {
-    return null
+    return <div>not found...</div>
   }
 
-  if (!country.found) {
-    return (
-      <div>
-        not found...
-      </div>
-    )
-  }
+  console.log('Country data from Country:', country)
 
   return (
     <div>
-      <h3>{country.data.name} </h3>
-      <div>capital {country.data.capital} </div>
-      <div>population {country.data.population}</div> 
-      <img src={country.data.flag} height='100' alt={`flag of ${country.data.name}`}/>  
+      <h3>{country.name} </h3>
+      <div>capital {country.capital} </div>
+      <div>population {country.population}</div>
+      <img src={country.flag} height='100' alt={`flag of ${country.name}`} />
     </div>
   )
 }
@@ -55,6 +66,8 @@ const App = () => {
     e.preventDefault()
     setName(nameInput.value)
   }
+
+  console.log('name from App', name)
 
   return (
     <div>
