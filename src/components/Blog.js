@@ -1,23 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog }) => {
+const Blog = () => {
   const dispatch = useDispatch()
+  const id = useParams().id
   const user = useSelector((state) => state.user)
+  const blogs = useSelector((state) => state.blog)
 
-  const [hidden, setHidden] = useState(true)
+  // If these do not exist, don't run the errors
+  if (!blogs || !id) {
+    return null
+  }
 
-  const blogStyle = {
-    padding: 20,
-    textAlign: 'center',
-    border: 'solid',
-    borderWidth: 2,
-    margin: 10
+  const blog = blogs.find((blog) => blog.id.toString() === id.toString())
+
+  // If no blog is found, don't error
+  if (!blog) {
+    return null
   }
 
   const handleDelete = (blog) => {
     if (
+      // Standard browser confirm
       window.confirm(
         `Are you sure you want to remove ${blog.title} by ${blog.author}`
       )
@@ -27,28 +33,25 @@ const Blog = ({ blog }) => {
   }
 
   return (
-    <div className='theBlog' style={blogStyle}>
+    <div className='theBlog'>
+      <h2>{blog.title}</h2>
+      <h3> by {blog.author}</h3>
       <div>
-        {blog.title} {blog.author}
+        Likes: {blog.likes}
+        {user && <button onClick={() => dispatch(likeBlog(blog))}>💖</button>}
       </div>
-
-      {hidden ? (
-        <button onClick={() => setHidden(false)}>View</button>
-      ) : (
-        <div>
-          <button onClick={() => setHidden(true)}>Hide</button>
-          <p>{blog.url}</p>
-          <p>
-            Likes: {blog.likes}
-            {user && (
-              <button onClick={() => dispatch(likeBlog(blog))}>💖</button>
-            )}
-          </p>
-          {user.id === blog.user && (
-            <button onClick={() => handleDelete(blog)}>remove blog</button>
-          )}
-        </div>
-      )}
+      <div>
+        <p>
+          <a href={blog.url}>{blog.url}</a>
+        </p>
+        <p>Added by {blog.user.name}</p>
+        {user.id === blog.user.id && (
+          <button onClick={() => handleDelete(blog)}>remove blog</button>
+        )}
+        <p>
+          <Link to={'/'}>Back to Blog List</Link>
+        </p>
+      </div>
     </div>
   )
 }
