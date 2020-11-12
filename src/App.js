@@ -13,8 +13,9 @@ import BlogList from './components/BlogList'
 import Blog from './components/Blog'
 import UserList from './components/UserList'
 import SingleUser from './components/SingleUser'
-import Login from './components/Login'
 import Notification from './components/Notification'
+import Nav from './components/Nav'
+import Login from './components/Login'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -37,9 +38,9 @@ const App = () => {
   return (
     <div>
       <Notification />
-      <Login />
-      <hr />
       <Router>
+        <Nav />
+        <hr />
         <Switch>
           <Route path='/users/:id'>
             <SingleUser />
@@ -49,6 +50,9 @@ const App = () => {
           </Route>
           <Route path='/users'>
             <UserList />
+          </Route>
+          <Route path='/login'>
+            <Login />
           </Route>
           <Route path='/'>
             <BlogList />

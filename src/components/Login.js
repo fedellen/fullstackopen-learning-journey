@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { loginUser, logoutUser } from '../reducers/userReducer'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const history = useHistory()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
@@ -13,18 +15,8 @@ const Login = () => {
     dispatch(loginUser(username, password))
   }
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
-
   if (user) {
-    return (
-      <div>
-        {user.name} is logged in
-        <br />
-        <button onClick={() => handleLogout()}>Logout</button>
-      </div>
-    )
+    history.push('/')
   }
 
   return (
