@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
 
   const [hidden, setHidden] = useState(true)
 
@@ -17,9 +18,15 @@ const Blog = ({ blog, user }) => {
   }
 
   const handleDelete = (blog) => {
-    dispatch(deleteBlog(blog.id))
-      .then(dispatch(notify(`You deleted ${blog.title}`)))
-      .catch(() => dispatch(notify('Request failed...')))
+    if (
+      window.confirm(
+        `Are you sure you want to remove ${blog.title} by ${blog.author}`
+      )
+    ) {
+      dispatch(deleteBlog(blog.id))
+        .then(dispatch(notify(`You deleted ${blog.title}`)))
+        .catch(() => dispatch(notify('Request failed...')))
+    }
   }
 
   const handleLike = (blog) => {
@@ -29,7 +36,6 @@ const Blog = ({ blog, user }) => {
   }
 
   const deleteButton = () => {
-    console.log(user)
     if (user) {
       if (user.id === blog.user) {
         return <button onClick={() => handleDelete(blog)}>remove blog</button>
