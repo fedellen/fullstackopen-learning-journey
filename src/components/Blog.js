@@ -11,14 +11,22 @@ const Blog = () => {
 
   // If these do not exist, don't run the errors
   if (!blogs || !id) {
-    return null
+    return (
+      <p>
+        <Link to={'/'}>Back to Blog List</Link>
+      </p>
+    )
   }
 
   const blog = blogs.find((blog) => blog.id.toString() === id.toString())
 
   // If no blog is found, don't error
   if (!blog) {
-    return null
+    return (
+      <p>
+        <Link to={'/'}>Back to Blog List</Link>
+      </p>
+    )
   }
 
   const handleDelete = (blog) => {

@@ -23,11 +23,6 @@ const blogReducer = (state = [], action) => {
 export const initializeBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
-    // Format for easier use (user: 'user's Object ID')
-    /*const formattedBlogs = blogs.map((b) => {
-      return { ...b, user: b.user.id }
-    })*/
-    // Sort by likes
     const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
     dispatch({ type: 'INIT', data: sortedBlogs })
   }
