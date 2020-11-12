@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { notify } from './notificationReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
@@ -35,25 +36,40 @@ export const initializeBlogs = () => {
 export const likeBlog = (blog) => {
   return async (dispatch) => {
     const likedBlog = { ...blog, likes: blog.likes + 1 }
-    const returnedBlog = await blogService.likeBlog(likedBlog)
-    dispatch({
-      type: 'LIKE',
-      data: returnedBlog
-    })
+    try {
+      const returnedBlog = await blogService.likeBlog(likedBlog)
+      dispatch({
+        type: 'LIKE',
+        data: returnedBlog
+      })
+      dispatch(notify(`You liked ${returnedBlog.title}!`))
+    } catch {
+      dispatch(notify('Request has failed...'))
+    }
   }
 }
 
 export const createBlog = (blog) => {
   return async (dispatch) => {
-    const newBlog = await blogService.createBlog(blog)
-    dispatch({ type: 'NEW_BLOG', data: newBlog })
+    try {
+      const newBlog = await blogService.createBlog(blog)
+      dispatch({ type: 'NEW_BLOG', data: newBlog })
+      dispatch(notify(`${newBlog.title} by ${newBlog.author} has been added!`))
+    } catch {
+      dispatch(notify('Blog could not be added...'))
+    }
   }
 }
 
 export const deleteBlog = (id) => {
   return async (dispatch) => {
-    await blogService.deleteBlog(id)
-    dispatch({ type: 'DELETE', data: id })
+    try {
+      await blogService.deleteBlog(id)
+      dispatch({ type: 'DELETE', data: id })
+      dispatch(notify('Blog deleted...'))
+    } catch {
+      dispatch(notify('Blog could not be deleted...'))
+    }
   }
 }
 

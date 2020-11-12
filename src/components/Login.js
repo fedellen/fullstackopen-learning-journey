@@ -1,58 +1,53 @@
 import React, { useState } from 'react'
-import loginService from '../services/login'
-import blogsService from '../services/blogs'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser, logoutUser } from '../reducers/userReducer'
 
-const Login = ({
-  setUser,
-  newMessage
-}) => {
-
+const Login = ({}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault()
-
-    try{
-      const user = await loginService.login({
-        username, password
-      })
-      window.localStorage.setItem(
-        'blogUserLogin', JSON.stringify(user)
-      )
-
-      blogsService.setToken(user.token)
-
-      setUser(user)
-      newMessage(`Welcome back ${user.name}`, 'green')
-      setUsername('')
-      setPassword('')
-    } catch (err) {
-      newMessage('Wrong username or password credentials', 'red')
-    }
+    dispatch(loginUser(username, password))
   }
 
-  return(
+  const handleLogout = () => {
+    dispatch(logoutUser())
+  }
+
+  if (user) {
+    return (
+      <div>
+        {user.name} is logged in
+        <br />
+        <button onClick={() => handleLogout()}>Logout</button>
+      </div>
+    )
+  }
+
+  return (
     <form onSubmit={handleLogin}>
       <div>
-          username
+        username
         <input
-          type="text"
+          type='text'
           value={username}
-          name="Username"
+          name='Username'
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
-          password
+        password
         <input
-          type="password"
+          type='password'
           value={password}
-          name="Password"
+          name='Password'
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button type='submit'>login</button>
     </form>
   )
 }

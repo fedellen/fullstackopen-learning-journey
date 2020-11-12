@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { notify } from '../reducers/notificationReducer'
 import { createBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 
@@ -18,12 +17,7 @@ const NewBlog = () => {
       url: url
     }
 
-    dispatch(createBlog(blogObject)).then(
-      dispatch(
-        notify(`${blogObject.title} by ${blogObject.author} has been added!`)
-      )
-    )
-    // .catch(dispatch(notify('Blog could not be added...')))
+    dispatch(createBlog(blogObject))
 
     setTitle('')
     setAuthor('')

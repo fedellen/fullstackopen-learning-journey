@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/userReducer'
-import { useDispatch, useSelector } from 'react-redux'
 
 // Components
 import BlogList from './components/BlogList'
@@ -25,45 +25,17 @@ const App = () => {
     dispatch(initializeUser())
   }, [dispatch])
 
-  /*
-  const handleLogout = () => {
-    window.localStorage.removeItem('blogUserLogin')
-    dispatch(notify(`${user.name} has been logged out`))
-    setUser(null)
-  }*/
-
   return (
     <div>
       <Notification />
-      {user === null ? (
-        <Login />
-      ) : (
-        <div>
-          {user.name} is logged in
-          <br />
-          {/*  <button onClick={handleLogout} >Logout</button>*/}
-          <hr />
-          <Togglable buttonLabel={'Add New Blog'}>
-            <NewBlog />
-          </Togglable>
-          <hr />
-          <BlogList />
-          {/*
-          <div id='theBlogs'>
-            <h2>The Blogs</h2>
-            {blogs.map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                likeBlog={likeBlog}
-                user={user}
-                handleDelete={handleDelete}
-              />
-            ))}
-          </div>
-            */}
-        </div>
+      <Login />
+      {user && (
+        <Togglable buttonLabel={'Add New Blog'}>
+          <NewBlog />
+        </Togglable>
       )}
+      <hr />
+      <BlogList />
     </div>
   )
 }
