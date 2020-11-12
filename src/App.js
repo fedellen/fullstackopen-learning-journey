@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
 import { notify } from './reducers/notificationReducer'
+import { createBlog, initializeBlogs } from './reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 
 // Components
-import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
@@ -17,29 +18,15 @@ const App = () => {
   const dispatch = useDispatch()
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  // const [message, setMessage] = useState(null)
-  // const [messageColor, setMessageColor] = useState('red')
 
-  /*
-  const newMessage = (message, color) => {
-    color ? setMessageColor(color) : setMessageColor('red')
-    setMessage(message)
-    setTimeout(() => {
-      setMessage(null)
-    }, 5000)
-  }
-  */
+  // Currently working on 7.10 Redux step two
+  // Blog reducer has been created
+  // Getting ready to initialize list and refactor the things
 
   // Get the blogs, format array to better use API
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      const formattedBlogs = blogs.map((b) => {
-        return { ...b, user: b.user.id }
-      })
-      const sortedBlogs = formattedBlogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(sortedBlogs)
-    })
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   // Check if user is logged in, set token if true...
   useEffect(() => {
@@ -108,6 +95,8 @@ const App = () => {
             <NewBlog addBlog={addBlog} />
           </Togglable>
           <hr />
+          <BlogList />
+          {/*
           <div id='theBlogs'>
             <h2>The Blogs</h2>
             {blogs.map((blog) => (
@@ -120,6 +109,7 @@ const App = () => {
               />
             ))}
           </div>
+            */}
         </div>
       )}
     </div>
