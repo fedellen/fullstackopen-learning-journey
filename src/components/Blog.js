@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { likeBlog } from '../reducers/blogReducer'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
 
 const Blog = ({ blog, user }) => {
@@ -16,6 +16,12 @@ const Blog = ({ blog, user }) => {
     margin: 10
   }
 
+  const handleDelete = (blog) => {
+    dispatch(deleteBlog(blog.id))
+      .then(dispatch(notify(`You deleted ${blog.title}`)))
+      .catch(() => dispatch(notify('Request failed...')))
+  }
+
   const handleLike = (blog) => {
     dispatch(likeBlog(blog))
       .then(dispatch(notify(`You liked ${blog.title}!`)))
@@ -23,11 +29,10 @@ const Blog = ({ blog, user }) => {
   }
 
   const deleteButton = () => {
+    console.log(user)
     if (user) {
       if (user.id === blog.user) {
-        return (
-          <button /*onClick={() => handleDelete(blog)}*/>remove blog</button>
-        )
+        return <button onClick={() => handleDelete(blog)}>remove blog</button>
       }
     }
   }
