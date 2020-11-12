@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/userReducer'
+import { getUserList } from './reducers/userListReducer'
 
 // Components
 import BlogList from './components/BlogList'
+import UserList from './components/UserList'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
@@ -25,6 +27,11 @@ const App = () => {
     dispatch(initializeUser())
   }, [dispatch])
 
+  // Get user list; --> NOT <-- for logged in user
+  useEffect(() => {
+    dispatch(getUserList())
+  }, [dispatch])
+
   return (
     <div>
       <Notification />
@@ -35,6 +42,7 @@ const App = () => {
         </Togglable>
       )}
       <hr />
+      <UserList />
       <BlogList />
     </div>
   )
