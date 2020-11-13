@@ -31,7 +31,10 @@ blogRouter.post('/', async (req, res) => {
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  res.status(201).json(savedBlog)
+  // must populate all blog object responses    
+  const responseBlog = await Blog.findById(savedBlog._id).populate('user', { username: 1, name: 1 })
+
+  res.status(201).json(responseBlog)
 })
 
 blogRouter.delete('/:id', async (req, res) => {
