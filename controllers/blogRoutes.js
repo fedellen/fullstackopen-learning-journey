@@ -64,7 +64,7 @@ blogRouter.post('/:id/comments', async (req, res) => {
     user: blog.user,
     url: blog.url,
     likes: blog.likes,
-    comments: [ ...blog.comments, req.body.comment ]
+    comments: [ ...blog.comments, req.body.content ]
   }
   console.log('commented', commentedBlog)
   const updatedBlog = await Blog 
