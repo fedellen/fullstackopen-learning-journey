@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import Comments from './Comments'
+import NewComment from './NewComment'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -70,6 +71,7 @@ const Blog = () => {
         <p>
           <Link to={'/'}>Back to Blog List</Link>
         </p>
+        {user && <NewComment blogId={blog.id} />}
         {blog.comments.length > 0 && <Comments blog={blog} />}
       </div>
     </div>

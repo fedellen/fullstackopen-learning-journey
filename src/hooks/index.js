@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+// Custom Hook for handling html inputs
 export const useField = (type) => {
   const [value, setValue] = useState('')
 

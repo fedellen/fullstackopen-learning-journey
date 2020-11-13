@@ -9,7 +9,7 @@ const blogReducer = (state = [], action) => {
     case 'NEW_BLOG':
       return [...state, action.data]
 
-    case 'LIKE':
+    case 'UPDATE_BLOG':
       return state.map((b) => (b.id !== action.data.id ? b : action.data))
 
     case 'DELETE':
@@ -34,7 +34,7 @@ export const likeBlog = (blog) => {
     try {
       const returnedBlog = await blogService.likeBlog(likedBlog)
       dispatch({
-        type: 'LIKE',
+        type: 'UPDATE_BLOG',
         data: returnedBlog
       })
       dispatch(notify(`You liked ${returnedBlog.title}!`))
@@ -64,6 +64,19 @@ export const deleteBlog = (id) => {
       dispatch(notify('Blog deleted...'))
     } catch {
       dispatch(notify('Blog could not be deleted...'))
+    }
+  }
+}
+
+export const createComment = (comment) => {
+  return async (dispatch) => {
+    try {
+      console.log(comment)
+      const returnedBlog = await blogService.commentBlog(comment)
+      dispatch({ type: 'UPDATE_BLOG', data: returnedBlog })
+      dispatch(notify('Thanks for commenting!'))
+    } catch {
+      dispatch(notify('Comment could not be submitted...'))
     }
   }
 }
