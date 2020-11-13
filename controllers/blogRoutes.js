@@ -55,6 +55,25 @@ blogRouter.delete('/:id', async (req, res) => {
   }
 })
 
+blogRouter.post('/:id/comments', async (req, res) => {
+  const blog = await Blog.findById(req.params.id)
+  console.log('blog', blog)
+  const commentedBlog = { 
+    title: blog.title,
+    author: blog.author,
+    user: blog.user,
+    url: blog.url,
+    likes: blog.likes,
+    comments: [ ...blog.comments, req.body.comment ]
+  }
+  console.log('commented', commentedBlog)
+  const updatedBlog = await Blog 
+    .findByIdAndUpdate(req.params.id, commentedBlog, { new: true })
+    .populate('user', { username: 1, name: 1 })
+
+  res.status(200).json(updatedBlog)
+})
+
 blogRouter.put('/:id', async (req, res) => {
 
   const blog = {
@@ -62,12 +81,15 @@ blogRouter.put('/:id', async (req, res) => {
     author: req.body.author,
     user: req.body.user.id,
     url: req.body.url,
-    likes: req.body.likes
+    likes: req.body.likes,
+    comments: req.body.comments
   }
 
-  console.log('before:', blog)
-  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
-  console.log(updatedBlog)
+  const updatedBlog = await Blog
+    .findByIdAndUpdate(req.params.id, blog, { new: true })
+    .populate('user', { username: 1, name: 1 })
+  
+  // Have to re-populate to avoid front end errors and mongo
   res.status(200).json(updatedBlog)
 })
 
