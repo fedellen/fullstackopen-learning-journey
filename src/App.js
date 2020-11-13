@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 // Initialize redux states
+import { useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/userReducer'
 import { getUserList } from './reducers/userListReducer'

@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
+import Comments from './Comments'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -40,6 +41,8 @@ const Blog = () => {
     }
   }
 
+  console.log(blog.comments)
+
   return (
     <div className='theBlog'>
       <h2>{blog.title}</h2>
@@ -59,6 +62,7 @@ const Blog = () => {
         <p>
           <Link to={'/'}>Back to Blog List</Link>
         </p>
+        {blog.comments.length > 0 && <Comments blog={blog} />}
       </div>
     </div>
   )
