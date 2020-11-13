@@ -1,53 +1,38 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { createBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
+import { useField } from '../hooks'
 
 const NewBlog = () => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const title = useField('title')
+  const author = useField('author')
+  const url = useField('url')
   const dispatch = useDispatch()
 
   const handleAddBlog = (e) => {
     e.preventDefault()
 
     const blogObject = {
-      title: title,
-      author: author,
-      url: url
+      title: title.value,
+      author: author.value,
+      url: url.value
     }
 
     dispatch(createBlog(blogObject))
-
-    setTitle('')
-    setAuthor('')
-    setUrl('')
   }
 
   return (
     <div>
       <h2>Create New</h2>
       <form onSubmit={handleAddBlog}>
-        Title:{' '}
-        <input
-          id='title'
-          value={title}
-          onChange={({ target }) => setTitle(target.value)}
-        />
+        Title:
+        <input {...title} placeholder='Amazing Blog' />
         <br />
-        Author:{' '}
-        <input
-          id='author'
-          value={author}
-          onChange={({ target }) => setAuthor(target.value)}
-        />
+        Author:
+        <input {...author} placeholder='Great Author' />
         <br />
-        Url:{' '}
-        <input
-          id='url'
-          value={url}
-          onChange={({ target }) => setUrl(target.value)}
-        />
+        Url:
+        <input {...url} placeholder='http://www.example.com' />
         <br />
         <button id='createBlog' type='submit'>
           Create

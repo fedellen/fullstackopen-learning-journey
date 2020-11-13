@@ -41,7 +41,17 @@ const Blog = () => {
     }
   }
 
-  console.log(blog.comments)
+  const deleteButton = () => {
+    if (!user) {
+      return null
+    }
+
+    if (user.id !== blog.user.id) {
+      return null
+    }
+
+    return <button onClick={() => handleDelete(blog)}>remove blog</button>
+  }
 
   return (
     <div className='theBlog'>
@@ -56,9 +66,7 @@ const Blog = () => {
           <a href={blog.url}>{blog.url}</a>
         </p>
         <p>Added by {blog.user.name}</p>
-        {user.id === blog.user.id && (
-          <button onClick={() => handleDelete(blog)}>remove blog</button>
-        )}
+        {deleteButton()}
         <p>
           <Link to={'/'}>Back to Blog List</Link>
         </p>
