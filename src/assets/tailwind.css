@@ -4,10 +4,16 @@
 @import 'tailwindcss/utilities';
 
 @layer base {
-  a {
-    @apply text-orange-600;
-  }
   a:hover {
-    @apply text-orange-200;
+    @apply text-light;
+  }
+  input {
+    @apply px-4 m-2 text-xl bg-medium border-solid border-4 border-darker rounded-3xl;
+  }
+  button {
+    @apply bg-medium px-6 py-4 my-5 border-4 border-light border-solid  rounded-3xl;
+  }
+  button:hover {
+    @apply bg-lighter text-dark;
   }
 }
