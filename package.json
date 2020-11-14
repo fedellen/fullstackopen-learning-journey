@@ -15,8 +15,9 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm run watch:css && react-scripts start",
+    "build": "npm run watch:css && react-scripts build",
+    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "eslint": "eslint .",
@@ -42,7 +43,10 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
+    "autoprefixer": "^9.7.4",
     "cypress": "^5.5.0",
-    "redux-devtools-extension": "^2.13.8"
+    "postcss-cli": "^8.2.0",
+    "redux-devtools-extension": "^2.13.8",
+    "tailwindcss": "^1.9.6"
   }
 }

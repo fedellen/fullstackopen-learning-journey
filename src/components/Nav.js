@@ -11,28 +11,28 @@ const Nav = () => {
     dispatch(logoutUser())
   }
 
-  const navStyle = {
-    padding: 8
-  }
-
   return (
-    <div>
-      <Link style={navStyle} to='/'>
-        blogs
-      </Link>
-      <Link style={navStyle} to='/users'>
-        users
-      </Link>
-      {user ? (
-        <span style={navStyle}>
-          <em> {user.name} logged in </em>
-          <button onClick={() => handleLogout()}>Logout</button>
-        </span>
-      ) : (
-        <Link style={navStyle} to='/login'>
-          login
-        </Link>
-      )}
+    <div className='h-12 bg-gray-900'>
+      <div className='max-w-3xl flex content-center p-2'>
+        <div className='flex-1'>
+          <Link className='w-8' to='/'>
+            blogs
+          </Link>
+        </div>
+        <div className='flex-1'>
+          <Link to='/users'>users</Link>
+        </div>
+        <div className='flex-1'>
+          {user ? (
+            <span>
+              <em> {user.name} logged in </em>
+              <button onClick={() => handleLogout()}>Logout</button>
+            </span>
+          ) : (
+            <Link to='/login'>login</Link>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

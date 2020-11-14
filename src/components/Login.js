@@ -21,14 +21,16 @@ const Login = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className='bg-gray-700 h-56 content-center'>
       <p>
         <input {...username} placeholder='username' />
       </p>
       <p>
         <input {...password} placeholder='password' />
       </p>
-      <button type='submit'>login</button>
+      <button type='submit' className=''>
+        login
+      </button>
     </form>
   )
 }

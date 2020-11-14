@@ -1,0 +1,13 @@
+@import 'tailwindcss/base';
+
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  a {
+    @apply text-orange-600;
+  }
+  a:hover {
+    @apply text-orange-200;
+  }
+}

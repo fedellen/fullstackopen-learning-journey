@@ -39,24 +39,25 @@ const App = () => {
       <Notification />
       <Router>
         <Nav />
-        <hr />
-        <Switch>
-          <Route path='/users/:id'>
-            <SingleUser />
-          </Route>
-          <Route path='/blogs/:id'>
-            <Blog />
-          </Route>
-          <Route path='/users'>
-            <UserList />
-          </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/'>
-            <BlogList />
-          </Route>
-        </Switch>
+        <div className='container mx-auto px-4'>
+          <Switch>
+            <Route path='/users/:id'>
+              <SingleUser />
+            </Route>
+            <Route path='/blogs/:id'>
+              <Blog />
+            </Route>
+            <Route path='/users'>
+              <UserList />
+            </Route>
+            <Route path='/login'>
+              <Login />
+            </Route>
+            <Route path='/'>
+              <BlogList />
+            </Route>
+          </Switch>
+        </div>
       </Router>
     </div>
   )
