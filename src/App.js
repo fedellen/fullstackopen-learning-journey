@@ -36,9 +36,9 @@ const App = () => {
 
   return (
     <div>
-      <Notification />
       <Router>
         <Nav />
+        <Notification />
         <div className='container mx-auto px-4'>
           <Switch>
             <Route path='/users/:id'>

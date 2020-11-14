@@ -17,7 +17,7 @@ const BlogList = () => {
           <NewBlog />
         </Togglable>
       )}
-      <div className='grid grid-cols-2 gap-3'>
+      <div className='grid grid-cols-2 gap-3 lg:grid-cols-3'>
         {blogs.map((blog) => (
           <Link to={`/blogs/${blog.id}`}>
             <div

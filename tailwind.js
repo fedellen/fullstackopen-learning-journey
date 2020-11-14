@@ -17,11 +17,11 @@ module.exports = {
       xl: '1280px'
     },
     colors: {
-      darker: '#12100E', // Smoky Black
-      dark: '#30321C', // Pine Tree
-      medium: '#4A4B2F', // Rifle Green
-      light: '#6B654B', // Gold Fusion
-      lighter: '#D4DF9E', // Yellow Green Crayola
+      darker: '#576066', // Black Coral  // '#12100E', // Smoky Black
+      dark: '#122932', // Thistle // '#30321C', // Pine Tree
+      medium: '#2C514C', // Mountbatten Pink// '#4A4B2F', // Rifle Green
+      light: '#95818D', // Dark Slate Gray // '#6B654B', // Gold Fusion
+      lighter: '#E3C0D3', // GunMetal // '#D4DF9E', // Yellow Green Crayola
 
       transparent: 'transparent',
       current: 'currentColor',

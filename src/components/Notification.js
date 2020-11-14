@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 
 const Notification = () => {
   const style = {
-    background: 'lightgrey',
     fontSize: 32,
     borderStyle: 'solid',
     borderRadius: 10,
@@ -14,7 +13,11 @@ const Notification = () => {
   const notification = useSelector((state) => state.notification)
 
   if (notification) {
-    return <div style={style}>{notification}</div>
+    return (
+      <div className='bg-medium' style={style}>
+        {notification}
+      </div>
+    )
   }
 
   return <div></div>
