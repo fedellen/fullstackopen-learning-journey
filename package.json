@@ -1,0 +1,15 @@
+{
+  "name": "apollo-server-demo",
+  "version": "1.0.0",
+  "description": "a demonstration from fullstackopen.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fedellen",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.19.0",
+    "graphql": "^15.4.0"
+  }
+}
