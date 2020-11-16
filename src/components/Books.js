@@ -13,8 +13,6 @@ const Books = ({ show }) => {
     return <div>loading...</div>
   }
 
-  console.log(result)
-
   const books = result.data.allBooks
 
   return (
