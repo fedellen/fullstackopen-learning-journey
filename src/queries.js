@@ -39,3 +39,13 @@ export const CREATE_BOOK = gql`
     }
   }
 `
+
+export const UPDATE_BORN = gql`
+  mutation updateBorn($name: String!, $born: Int!) {
+    setBirthYear(name: $name, born: $born) {
+      name
+      born
+      bookCount
+    }
+  }
+`
