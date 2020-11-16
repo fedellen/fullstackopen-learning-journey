@@ -35,7 +35,7 @@ const Authors = ({ show }) => {
           ))}
         </tbody>
       </table>
-      <SetBirthYear />
+      <SetBirthYear authors={authors} />
     </div>
   )
 }
