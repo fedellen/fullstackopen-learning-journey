@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const { v1: uuid } = require('uuid')
 
 // import { books, authors } from './data.js'
@@ -98,6 +98,7 @@ const typeDefs = gql`
   type Author {
     name: String!
     id: ID!
+    bookCount: Int
     born: Int
   }
 
@@ -115,6 +116,8 @@ const typeDefs = gql`
       author: String!
       genres: [String!]!
     ): Book
+
+    setBirthYear(name: String!, born: Int!): Author
   }
 `
 
@@ -146,6 +149,12 @@ const resolvers = {
     allAuthors: () => authors
   },
 
+  Author: {
+    bookCount: (root) => {
+      return books.filter((b) => b.author === root.name).length
+    }
+  },
+
   Mutation: {
     addBook: (root, args) => {
       if (books.find((p) => p.title === args.title)) {
@@ -155,14 +164,30 @@ const resolvers = {
       }
 
       const book = { ...args, id: uuid() }
+      const hasAuthor = books.find((b) => b.author === book.author)
+
       books = books.concat(book)
 
-      if (!books.includes({ author: book.author })) {
+      if (!hasAuthor) {
         const author = { name: book.author, id: uuid() }
         authors = authors.concat(author)
       }
 
       return book
+    },
+
+    setBirthYear: (root, args) => {
+      const author = authors.find(
+        (a) => a.name.toLowerCase() === args.name.toLowerCase()
+      )
+      if (!author) {
+        throw new UserInputError('Author not found', {
+          invalidArgs: args.name
+        })
+      }
+      const updatedAuthor = { ...author, born: args.born }
+      authors = authors.map((a) => (a.name === args.name ? updatedAuthor : a))
+      return updatedAuthor
     }
   }
 }
