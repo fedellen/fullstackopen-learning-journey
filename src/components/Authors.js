@@ -3,7 +3,7 @@ import React from 'react'
 import { ALL_AUTHORS } from '../queries'
 import SetBirthYear from './SetBirthYear'
 
-const Authors = ({ show }) => {
+const Authors = ({ show, token }) => {
   const result = useQuery(ALL_AUTHORS)
 
   if (!show) {
@@ -35,7 +35,7 @@ const Authors = ({ show }) => {
           ))}
         </tbody>
       </table>
-      <SetBirthYear authors={authors} />
+      {token && <SetBirthYear authors={authors} />}
     </div>
   )
 }
