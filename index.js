@@ -136,8 +136,10 @@ const resolvers = {
 
       try {
         await author.save()
-      } catch (error) {
-        throw new UserInputError(`Author failed to save... args: ${error}`)
+      } catch (err) {
+        throw new UserInputError(
+          `Birth year failed to save... args: ${err.message}`
+        )
       }
 
       return author
