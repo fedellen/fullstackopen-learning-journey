@@ -1,0 +1,39 @@
+query get {
+  allBooks {
+    title
+    id
+    published
+    genres
+    author {
+      name
+      bookCount
+      born
+      id
+    }
+  }
+}
+
+query count {
+  authorCount
+  bookCount
+}
+
+mutation setBorn {
+  setBirthYear(name: "Derek Thompson", born: 2001) {
+    name
+    born
+    bookCount
+    id
+  }
+}
+
+mutation add {
+  addBook(
+    title: "The sixth  bookk"
+    author: "Derek Thompson"
+    published: 2021
+    genres: ["donde", "getting donde"]
+  ) {
+    title
+  }
+}
