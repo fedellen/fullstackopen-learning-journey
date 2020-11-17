@@ -1,15 +1,29 @@
-import React, { useState } from 'react'
+import { useLazyQuery } from '@apollo/client'
+import React, { useEffect, useState } from 'react'
+import { ALL_BOOKS } from '../queries'
 
 const Books = ({ show, books }) => {
-  const [currentGenre, setCurrentGenre] = useState('show all')
+  const [getBooks, result] = useLazyQuery(ALL_BOOKS)
+  const [sortedBooks, setSortedBooks] = useState(books)
+
+  const sortBooks = (genre) => {
+    genre === 'show all' ? getBooks() : getBooks({ variables: { genre } })
+  }
+
+  // triggers upon `result` changing, sorts books
+  useEffect(() => {
+    if (result.data) {
+      setSortedBooks(result.data.allBooks)
+    }
+  }, [result])
 
   if (!show) {
     return null
   }
 
+  // Get genres; merge genre arrays, avoiding duplication;
   const genreArrays = books.map((b) => b.genres)
   let genres = []
-
   genreArrays.forEach((array) => {
     array.forEach((genre) => {
       if (!genres.includes(genre)) {
@@ -17,13 +31,7 @@ const Books = ({ show, books }) => {
       }
     })
   })
-
   genres.push('show all')
-
-  let booksToShow = books
-  if (currentGenre !== 'show all') {
-    booksToShow = books.filter((b) => b.genres.includes(currentGenre))
-  }
 
   return (
     <div>
@@ -36,7 +44,7 @@ const Books = ({ show, books }) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {booksToShow.map((a) => (
+          {sortedBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -46,7 +54,7 @@ const Books = ({ show, books }) => {
         </tbody>
       </table>
       {genres.map((g) => (
-        <button key={g} onClick={() => setCurrentGenre(g)}>
+        <button key={g} onClick={() => sortBooks(g)}>
           {g}
         </button>
       ))}
