@@ -1,7 +1,28 @@
 const { ApolloServer, gql, UserInputError } = require('apollo-server')
-const { v1: uuid } = require('uuid')
+const mongoose = require('mongoose')
 
-// import { books, authors } from './data.js'
+// models
+const Author = require('./models/Author')
+const Book = require('./models/Book')
+
+// secret codes (MONGODB_URI)
+require('dotenv').config()
+
+console.log(`Connecting to ${process.env.MONGODB_URI}...`)
+
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  })
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((err) => {
+    console.log('error connection to mongoDB: ', err.message)
+  })
 
 let authors = [
   {
@@ -90,9 +111,9 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: String!
-    id: ID!
+    author: Author!
     genres: [String!]!
+    id: ID!
   }
 
   type Author {
@@ -123,10 +144,11 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
+    bookCount: () => Book.collection.countDocuments(),
+    authorCount: () => Author.collection.countDocuments(),
 
     allBooks: (root, args) => {
+      /*
       let theBooks = books
       if (args.author) {
         const byAuthor = (book) =>
@@ -141,12 +163,12 @@ const resolvers = {
             ? book.genre
             : !book.genre
         theBooks = theBooks.filter(byGenre)
-      }
+      } */
 
-      return theBooks
+      return Book.find({})
     },
 
-    allAuthors: () => authors
+    allAuthors: () => Author.find({})
   },
 
   Author: {
@@ -156,21 +178,24 @@ const resolvers = {
   },
 
   Mutation: {
-    addBook: (root, args) => {
-      if (books.find((p) => p.title === args.title)) {
-        throw new UserInputError('title must be unique', {
-          invalidArgs: args.title
-        })
+    addBook: async (root, args) => {
+      let author = await Author.findOne({ name: args.author })
+
+      if (!author) {
+        author = new Author({ name: args.author })
+        try {
+          await author.save()
+        } catch (err) {
+          throw new UserInputError(err.message)
+        }
       }
 
-      const book = { ...args, id: uuid() }
-      const hasAuthor = books.find((b) => b.author === book.author)
+      const book = new Book({ ...args, author: author._id })
 
-      books = books.concat(book)
-
-      if (!hasAuthor) {
-        const author = { name: book.author, id: uuid() }
-        authors = authors.concat(author)
+      try {
+        await book.save()
+      } catch (err) {
+        throw new UserInputError(err.message)
       }
 
       return book
