@@ -74,7 +74,7 @@ try {
   const { dailyHours, targetGoal } = parseArgs(process.argv)
   console.log(calculateExercises(dailyHours, targetGoal))
 } catch (err) {
-  console.log('An error has occured...', err.message)
+  console.log('An error has occured...', (err as Error).message)
 }
 
 // returns =>     days          | training days     | orig target value

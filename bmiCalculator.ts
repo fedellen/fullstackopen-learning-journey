@@ -1,10 +1,10 @@
-interface BodyValues {
+/*interface BodyValues {
   height: number
   weight: number
 }
-
+*/
 type Result = string
-
+/*
 const parseArguments = (args: Array<string>): BodyValues => {
   if (args.length < 4) throw new Error('Not enough arguments')
   if (args.length > 4) throw new Error('Too many arguments')
@@ -17,9 +17,9 @@ const parseArguments = (args: Array<string>): BodyValues => {
   } else {
     throw new Error('Provided values were not numbers!')
   }
-}
+}*/
 
-const bodyMassIndex = (height: number, weight: number): Result => {
+export const bodyMassIndex = (height: number, weight: number): Result => {
   // BMI function: Weight (KG) / Height (CM coverted to M) Sqaured
   const bmi: number = weight / ((height / 100) * (height / 100))
 
@@ -33,10 +33,11 @@ const bodyMassIndex = (height: number, weight: number): Result => {
   else if (bmi > 15) return `Severely underweight: ${bmi} BMI`
   else return `Very severely underweight: ${bmi} BMI`
 }
-
+/*
 try {
   const { height, weight } = parseArguments(process.argv)
   console.log(bodyMassIndex(height, weight))
 } catch (err) {
   console.log('Error:', err.message)
 }
+*/
