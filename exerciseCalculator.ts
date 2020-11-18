@@ -1,8 +1,9 @@
+/*
 interface exerciseArgs {
   dailyHours: Array<number>
   targetGoal: number
 }
-
+*/
 interface exerciseResults {
   totalDays: number
   trainedDays: number
@@ -12,7 +13,7 @@ interface exerciseResults {
   ratingDesc: string
   average: number
 }
-
+/*
 const parseArgs = (args: Array<string>): exerciseArgs => {
   if (args.length < 4) throw new Error('Not enough arguments')
   if (args.length > 4) throw new Error('Too many arguments')
@@ -24,9 +25,9 @@ const parseArgs = (args: Array<string>): exerciseArgs => {
     dailyHours: numberArrayOfHours,
     targetGoal: Number(args[3])
   }
-}
+}*/
 
-const calculateExercises = (
+export const calculateExercises = (
   hours: Array<number>,
   target: number
 ): exerciseResults => {
@@ -69,14 +70,14 @@ const calculateExercises = (
     average: avgHours
   }
 }
-
+/*
 try {
   const { dailyHours, targetGoal } = parseArgs(process.argv)
   console.log(calculateExercises(dailyHours, targetGoal))
 } catch (err) {
   console.log('An error has occured...', (err as Error).message)
 }
-
+*/
 // returns =>     days          | training days     | orig target value
 //                cacl avg time | boolean if reach  | rating between 1-3 depending on how goal met
 //                text value explaining the rating finally

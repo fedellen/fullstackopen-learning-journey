@@ -1,10 +1,27 @@
 import express from 'express'
 import { bodyMassIndex } from './bmiCalculator'
+import { calculateExercises } from './exerciseCalculator'
 
 const app = express()
+app.use(express.json())
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!')
+})
+
+app.post('/exercise', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dailyHours: any = req.body.dailyHours
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const target: any = req.body.target
+
+  if (!req.body.dailyHours || !req.body.target) {
+    res.status(400).json('parameters missing')
+  } else if (isNaN(target) || !Array.isArray(dailyHours)) {
+    res.status(400).json('malformatted parameters')
+  } else {
+    res.status(200).json(calculateExercises(dailyHours, target))
+  }
 })
 
 app.get('/bmi', (req, res) => {
