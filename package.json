@@ -1,0 +1,14 @@
+{
+  "name": "typescript-exercise",
+  "version": "1.0.0",
+  "description": "fullstackopen.com exercise 9.1-9.3",
+  "main": "index.js",
+  "scripts": {
+    "bmi": "ts-node bmiCalculator.ts"
+  },
+  "author": "fedellen",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.14.8"
+  }
+}
