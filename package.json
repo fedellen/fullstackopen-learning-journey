@@ -4,7 +4,8 @@
   "description": "fullstackopen.com exercise 9.1-9.3",
   "main": "index.js",
   "scripts": {
-    "bmi": "ts-node bmiCalculator.ts"
+    "bmi": "ts-node bmiCalculator.ts",
+    "exer": "ts-node exerciseCalculator.ts"
   },
   "author": "fedellen",
   "license": "MIT",
