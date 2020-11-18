@@ -20,6 +20,7 @@ const parseArguments = (args: Array<string>): BodyValues => {
 }
 
 const bodyMassIndex = (height: number, weight: number): Result => {
+  // BMI function: Weight (KG) / Height (CM coverted to M) Sqaured
   const bmi: number = weight / ((height / 100) * (height / 100))
 
   // BMI Logic
