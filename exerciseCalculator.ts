@@ -54,7 +54,7 @@ const calculateExercises = (
       return 'You reached your goal, but it could be better 👌'
     } else if (rating === 1) {
       return 'Missed your goal, good luck for next time 👀'
-    } else if (rating === 0) {
+    } else {
       return '...try exercising for next time 😑'
     }
   }

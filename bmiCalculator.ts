@@ -31,7 +31,7 @@ const bodyMassIndex = (height: number, weight: number): Result => {
   else if (bmi > 18.5) return `Normal (healthy weight): ${bmi} BMI`
   else if (bmi > 16) return `Underweight: ${bmi} BMI`
   else if (bmi > 15) return `Severely underweight: ${bmi} BMI`
-  else if (bmi <= 15) return `Very severely underweight: ${bmi} BMI`
+  else return `Very severely underweight: ${bmi} BMI`
 }
 
 try {
