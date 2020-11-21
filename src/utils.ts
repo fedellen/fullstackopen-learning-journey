@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { NewPatientEntry, Gender } from './types';
+import { NewPatient, Gender } from './types';
 
 const parseName = (name: any): string => {
   if (!name || !isString(name)) {
@@ -50,7 +50,7 @@ const isDate = (date: string): boolean => {
   return Boolean(Date.parse(date));
 };
 
-const toNewPatientEntry = (object: any): NewPatientEntry => {
+const toNewPatientEntry = (object: any): NewPatient => {
   return {
     name: parseName(object.name),
     dateOfBirth: parseDateOfBirth(object.dateOfBirth),
