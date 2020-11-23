@@ -13,17 +13,14 @@ const ItemSeparator = () => <View style={styles.seperator} />;
 
 const RepositoryList = () => {
   return (
-    <>
-      <FlatList
-        data={repositories}
-        style={{ paddingHorizontal: 20 }}
-        ItemSeparatorComponent={ItemSeparator}
-        ListHeaderComponent={ItemSeparator}
-        ListFooterComponent={ItemSeparator}
-        renderItem={(item) => <RepositoryItem item={item.item} />}
-        // more props 😍
-      />
-    </>
+    <FlatList
+      data={repositories}
+      style={{ paddingHorizontal: 20, flexGrow: 1, flexShrink: 1 }}
+      ItemSeparatorComponent={ItemSeparator}
+      ListHeaderComponent={ItemSeparator}
+      ListFooterComponent={ItemSeparator}
+      renderItem={(item) => <RepositoryItem item={item.item} />}
+    />
   );
 };
 
