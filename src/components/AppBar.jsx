@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     paddingHorizontal: 10,
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.colors.primary
   }
 });
 
