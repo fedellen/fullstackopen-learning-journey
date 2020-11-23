@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
 
 import Text from './Text';
+import AppBar from './AppBar';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,12 +17,7 @@ const styles = StyleSheet.create({
 const Main = () => {
   return (
     <>
-      <Text>Simple Text</Text>
-      <Text style={{ paddingBottom: 10 }}>Text with custom style</Text>
-      <Text fontWeight='bold' fontSize='subheading'>
-        Bold Subheading
-      </Text>
-      <Text color='textSecondary'>Text with secondary color</Text>
+      <AppBar />
       <View style={styles.container}>
         <Text>Rate repository Application</Text>
         <RepositoryList />
