@@ -6,7 +6,8 @@ import Text from './Text';
 const styles = StyleSheet.create({
   stat: {
     padding: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    alignItems: 'center'
   }
 });
 

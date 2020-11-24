@@ -2,8 +2,8 @@ import React from 'react';
 import { TextInput as NativeTextInput, StyleSheet } from 'react-native';
 import theme from '../theme';
 
-const TextInput = ({ ...props }) => {
-  const textInputStyle = [styles.input];
+const TextInput = ({ error, ...props }) => {
+  const textInputStyle = [styles.input, error && styles.hasError];
 
   return (
     <NativeTextInput
@@ -22,7 +22,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 60,
     padding: 15,
-    marginBottom: 25
+    marginVertical: 10
+  },
+  hasError: {
+    borderStyle: 'solid',
+    borderWidth: 3,
+    borderColor: theme.colors.textSecondary
   }
 });
 
