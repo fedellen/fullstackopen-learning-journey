@@ -8,7 +8,9 @@ const styles = StyleSheet.create({
   repoItem: {
     backgroundColor: theme.colors.primary,
     borderRadius: 20,
-    padding: 0
+    padding: 0,
+    borderColor: theme.colors.secondary,
+    borderWidth: 3
   }
 });
 

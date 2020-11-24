@@ -8,8 +8,9 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     paddingHorizontal: 10,
-    backgroundColor: theme.colors.primary
-    //flexDirection: 'row'
+    backgroundColor: theme.colors.primary,
+    borderBottomWidth: 3,
+    borderColor: theme.colors.secondary
   }
 });
 
