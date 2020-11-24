@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link } from 'react-router-native';
 import Heading from './Heading';
 
