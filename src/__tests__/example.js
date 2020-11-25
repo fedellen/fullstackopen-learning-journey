@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 
+// Here are some Jest React Native testing examples
+
 describe('Example', () => {
   it('works', () => {
     expect(1).toBe(1);

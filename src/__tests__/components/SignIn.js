@@ -1,7 +1,12 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import SignInContainer from '../../components/SignIn/SignInContainer';
-// ...
+
+/* 
+// To use Formik forms, use 
+// `await act(async () => await fireEvent.things)`
+// Just as below's example 😂
+*/
 
 describe('SignIn', () => {
   describe('SignInContainer', () => {
