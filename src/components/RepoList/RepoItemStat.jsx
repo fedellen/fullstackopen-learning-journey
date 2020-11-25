@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Heading from './Heading';
-import Text from './Text';
+import Heading from '../Styled/Heading';
+import Text from '../Styled/Text';
 
 const styles = StyleSheet.create({
   stat: {

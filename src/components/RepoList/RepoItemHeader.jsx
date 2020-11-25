@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import Heading from './Heading';
-import Text from './Text';
-import Tag from './Tag';
+import Heading from '../Styled/Heading';
+import Text from '../Styled/Text';
+import Tag from '../Styled/Tag';
 
 const styles = StyleSheet.create({
   gitHubPic: {

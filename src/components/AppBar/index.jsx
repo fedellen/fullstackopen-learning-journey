@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
-import theme from '../theme';
+import theme from '../../theme';
 import AppBarTab from './AppBarTab';
 import { useQuery } from '@apollo/react-hooks';
-import { AUTH_USER } from '../graphql/queries';
+import { AUTH_USER } from '../../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {

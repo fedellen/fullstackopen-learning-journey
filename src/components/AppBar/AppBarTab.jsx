@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link } from 'react-router-native';
-import Heading from './Heading';
-import AuthStorageContext from '../contexts/AuthStorageContext';
+import Heading from '../Styled/Heading';
+import AuthStorageContext from '../../contexts/AuthStorageContext';
 import { useApolloClient } from '@apollo/react-hooks';
 
 const styles = StyleSheet.create({
