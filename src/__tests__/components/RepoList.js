@@ -1,4 +1,4 @@
-import { RepositoryListContainer } from '../components/RepoList';
+import { RepositoryListContainer } from '../../components/RepoList';
 import React from 'react';
 import { render } from '@testing-library/react-native';
 
