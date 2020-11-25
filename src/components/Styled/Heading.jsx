@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text as NativeText, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import theme from '../../theme';
+import Text from './Text';
 
 const styles = StyleSheet.create({
   text: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
 const Heading = ({ ...props }) => {
   const textStyle = [styles.text];
 
-  return <NativeText style={textStyle} {...props} />;
+  return <Text style={textStyle} {...props} />;
 };
 
 export default Heading;

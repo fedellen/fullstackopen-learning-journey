@@ -25,7 +25,7 @@ const Tag = ({ text }) => {
   return (
     <View style={styles.style}>
       <View style={styles.tag}>
-        <Text style={styles.text}> {text} </Text>
+        <Text style={styles.text}>{text}</Text>
       </View>
     </View>
   );
