@@ -5,12 +5,11 @@ import useRepositories from '../../hooks/useRepositories';
 
 import RepositoryItem from './RepositoryItem';
 
-// Spacer
+// This is a spacer component
 const ItemSeparator = () => <View style={{ height: 30 }} />;
 
-const RepositoryList = () => {
-  const { repositories } = useRepositories();
-
+// Pure component for repo list
+export const RepositoryListContainer = ({ repositories }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -25,6 +24,12 @@ const RepositoryList = () => {
       renderItem={(item) => <RepositoryItem item={item.item} />}
     />
   );
+};
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+
+  return <RepositoryListContainer repositories={repositories} />;
 };
 
 export default RepositoryList;
