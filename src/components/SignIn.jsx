@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 import { useHistory } from 'react-router-native';
 
-const SignInContainer = ({ onSubmit }) => {
+export const SignInContainer = ({ onSubmit }) => {
   const validationSchema = yup.object().shape({
     username: yup.string().required('Username is required'),
     password: yup.string().required('Password is required')
