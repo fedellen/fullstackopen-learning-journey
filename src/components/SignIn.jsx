@@ -8,28 +8,11 @@ import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 import { useHistory } from 'react-router-native';
 
-const SignIn = () => {
-  const [signIn, result] = useSignIn();
-  const history = useHistory();
-
+const SignInContainer = ({ onSubmit }) => {
   const validationSchema = yup.object().shape({
     username: yup.string().required('Username is required'),
     password: yup.string().required('Password is required')
   });
-
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-
-    try {
-      await signIn({ username, password });
-      console.log('this is the result', result);
-      if (result.data) history.push('/');
-      else console.log('Credentials are incorrect...');
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <Formik
       onSubmit={(values) => onSubmit(values)}
@@ -51,6 +34,26 @@ const SignIn = () => {
       )}
     </Formik>
   );
+};
+
+const SignIn = () => {
+  const [signIn, result] = useSignIn();
+  const history = useHistory();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      await signIn({ username, password });
+      console.log('this is the result', result);
+      if (result.data) history.push('/');
+      else console.log('Credentials are incorrect...');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return <SignInContainer onSubmit={onSubmit} />;
 };
 
 const styles = StyleSheet.create({
