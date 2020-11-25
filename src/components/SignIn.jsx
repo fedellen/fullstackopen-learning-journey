@@ -9,7 +9,7 @@ import useSignIn from '../hooks/useSignIn';
 import { useHistory } from 'react-router-native';
 
 const SignIn = () => {
-  const [signIn] = useSignIn();
+  const [signIn, result] = useSignIn();
   const history = useHistory();
 
   const validationSchema = yup.object().shape({
@@ -22,7 +22,9 @@ const SignIn = () => {
 
     try {
       await signIn({ username, password });
-      history.push('/');
+      console.log('this is the result', result);
+      if (result.data) history.push('/');
+      else console.log('Credentials are incorrect...');
     } catch (err) {
       console.log(err);
     }
