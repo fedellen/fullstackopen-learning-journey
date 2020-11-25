@@ -1,11 +1,9 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
-import { SignInContainer } from '../components/SignIn';
+import SignInContainer from '../../components/SignIn/SignInContainer';
 // ...
 
 describe('SignIn', () => {
-  console.log(SignInContainer);
-
   describe('SignInContainer', () => {
     it('calls onSubmit function with correct arguments when a valid form is submitted', async () => {
       // render the SignInContainer component, fill the text inputs and press the submit button
@@ -14,21 +12,22 @@ describe('SignIn', () => {
         <SignInContainer onSubmit={onSubmit} />
       );
 
-      fireEvent.changeText(getByPlaceholderText('username'), 'kalle');
-      fireEvent.changeText(getByPlaceholderText('password'), 'password');
-      fireEvent.press(getByText('Log In'));
-
       await act(async () => {
-        // call the fireEvent method here
+        await fireEvent.changeText(getByPlaceholderText('username'), 'kalle');
+        await fireEvent.changeText(
+          getByPlaceholderText('password'),
+          'password'
+        );
+        await fireEvent.press(getByText('Log In'));
       });
 
       await waitFor(() => {
         // expect the onSubmit function to have been called once and with a correct first argument
         expect(onSubmit).toHaveBeenCalledTimes(1);
-        expect(onSubmit.mock.calls[0][0]).toEqaul({
-          username: 'kalle',
-          password: 'password'
-        });
+      });
+      expect(onSubmit.mock.calls[0][0]).toStrictEqual({
+        username: 'kalle',
+        password: 'password'
       });
     });
   });
