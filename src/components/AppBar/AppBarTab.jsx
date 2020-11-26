@@ -11,14 +11,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexGrow: 1,
     flexShrink: 1
-    //zIndex: 1
-  },
-  link: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%',
-    height: '100%'
   }
 });
 

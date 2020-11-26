@@ -3,8 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import theme from '../../theme';
 import AppBarTab from './AppBarTab';
-import { useQuery } from '@apollo/react-hooks';
-import { AUTH_USER } from '../../graphql/queries';
+import { useHistory, useLocation } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,13 +15,16 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppBar = () => {
-  const userQuery = useQuery(AUTH_USER, {
-    fetchPolicy: 'cache-and-network'
-  });
+const AppBar = ({ user }) => {
+  const history = useHistory();
+  const location = useLocation();
 
-  const user = userQuery.data ? userQuery.data.authorizedUser : null;
-
+  console.log('user check is:', user);
+  if (location.pathname === '/signin' && user) {
+    console.log('hello inside');
+    history.push('/');
+    return null;
+  }
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
