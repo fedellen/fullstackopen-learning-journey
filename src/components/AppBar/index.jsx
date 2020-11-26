@@ -19,9 +19,15 @@ const AppBar = ({ user }) => {
   const history = useHistory();
   const location = useLocation();
 
-  console.log('user check is:', user);
+  // Still getting a warning on push:
+
+  // ExceptionsManager.js:173 Warning:
+
+  //   Cannot update during an existing state transition
+  //   (such as within `render`). Render methods should
+  //   be a pure function of props and state.
+
   if (location.pathname === '/signin' && user) {
-    console.log('hello inside');
     history.push('/');
     return null;
   }
