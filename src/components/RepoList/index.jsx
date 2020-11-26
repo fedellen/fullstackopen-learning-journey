@@ -13,6 +13,13 @@ const ItemSeparator = () => <View style={{ height: 30 }} />;
 export const RepositoryListContainer = ({ repositories }) => {
   const history = useHistory();
 
+  const handleRedirect = (id) => {
+    console.log('hello redirect, here is our id:', id);
+    console.log('pushing to: ', `/repo/${id}`);
+
+    history.push(`/repo/${id}`);
+  };
+
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -25,9 +32,7 @@ export const RepositoryListContainer = ({ repositories }) => {
       ListHeaderComponent={ItemSeparator}
       ListFooterComponent={ItemSeparator}
       renderItem={(item) => (
-        <TouchableOpacity
-          onPress={() => history.push(`/repositories/${item.id}`)}
-        >
+        <TouchableOpacity onPress={() => handleRedirect(item.item.id)}>
           <RepositoryItem item={item.item} />
         </TouchableOpacity>
       )}

@@ -6,7 +6,7 @@ import RepositoryList from './RepoList';
 import AppBar from './AppBar';
 import theme from '../theme';
 import SignIn from './SignIn';
-import RepositorySingle from './RepoList/RepositoryItem';
+import RepositorySingle from './RepoList/RepositorySingle';
 import { useQuery } from '@apollo/react-hooks';
 import { AUTH_USER } from '../graphql/queries';
 
@@ -22,13 +22,18 @@ const Main = () => {
   const [user, setUser] = useState(null);
   const userQuery = useQuery(AUTH_USER);
 
-  if (userQuery.data.authorizedUser && user === null) {
-    console.log(userQuery);
-    setUser(userQuery.data);
-  } else if (!userQuery.data.authorizedUser && user !== null) {
-    setUser(null);
-  }
+  // if data is undefined, set to user null. (awaiting graphQL query)
+  // if query has auth user, user is set to the user.
+  // if query has no auth user, set user to null
+  // very specifically avoiding start-up errors 👌
 
+  if (userQuery.data !== undefined) {
+    if (userQuery.data.authorizedUser && user === null) {
+      setUser(userQuery.data.authorizedUser);
+    } else if (!userQuery.data.authorizedUser && user !== null) {
+      setUser(null);
+    }
+  }
   console.log('user is ', user);
 
   return (
@@ -38,7 +43,7 @@ const Main = () => {
         <Route path='/signin'>
           <SignIn />
         </Route>
-        <Route path='/repositories/:id'>
+        <Route path='/repo/:id'>
           <RepositorySingle />
         </Route>
         <Route path='/' exact>
