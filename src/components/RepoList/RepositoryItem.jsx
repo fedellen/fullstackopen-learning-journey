@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+  if (!item) {
+    return null;
+  }
+
   return (
     <View style={styles.repoItem}>
       <RepoItemHeader repo={item} />
