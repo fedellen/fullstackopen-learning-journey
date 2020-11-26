@@ -21,7 +21,7 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_SINGLE_REPO = gql`
-  query getRepo($id: String!) {
+  query getRepo($id: ID!) {
     repository(id: $id) {
       id
       fullName
