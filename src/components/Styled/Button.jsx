@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
-    marginVertical: 10
+    marginVertical: 10,
+    borderColor: theme.colors.secondary,
+    borderWidth: 3
   }
 });
 
