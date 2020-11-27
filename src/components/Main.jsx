@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Route, Switch, Redirect } from 'react-router-native';
+import {
+  Route,
+  Switch,
+  Redirect,
+  useHistory,
+  useLocation
+} from 'react-router-native';
 
 import RepositoryList from './RepoList';
 import AppBar from './AppBar';
@@ -21,6 +27,8 @@ const styles = StyleSheet.create({
 const Main = () => {
   const [user, setUser] = useState(null);
   const userQuery = useQuery(AUTH_USER);
+  const history = useHistory();
+  const location = useLocation();
 
   // if data is undefined, set to user null. (awaiting graphQL query)
   // if query has auth user, user is set to the user.
@@ -34,7 +42,12 @@ const Main = () => {
       setUser(null);
     }
   }
-  console.log('user is ', user);
+
+  // if user exists and curently on sign in page, push to repos
+  if (location.pathname === '/signin' && user) {
+    history.push('/');
+    return null;
+  }
 
   return (
     <View style={styles.container}>
