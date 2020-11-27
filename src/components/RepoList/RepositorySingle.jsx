@@ -3,6 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { useParams } from 'react-router-native';
 import { GET_SINGLE_REPO } from '../../graphql/queries';
+import * as Linking from 'expo-linking';
 
 import Button from '../Styled/Button';
 import RepositoryItem from './RepositoryItem';
@@ -24,6 +25,7 @@ const RepositorySingle = () => {
 
   const githubLink = () => {
     console.log('send to github', data.repository.url);
+    Linking.openURL(data.repository.url);
   };
 
   return (
