@@ -1,38 +1,44 @@
 import { useQuery } from '@apollo/react-hooks';
 import React from 'react';
-import { View } from 'react-native';
+import { FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
 import { GET_SINGLE_REPO } from '../../graphql/queries';
 import * as Linking from 'expo-linking';
 
 import Button from '../Styled/Button';
 import RepositoryItem from './RepositoryItem';
+import ReviewItem from './ReviewItem';
 
 const RepositorySingle = () => {
-  console.log('welcome to repository single!');
-
   const { id } = useParams();
 
   const { data, loading } = useQuery(GET_SINGLE_REPO, {
     fetchPolicy: 'cache-and-network',
     variables: { id }
   });
-  console.log(loading);
 
   if (loading) return null;
-
-  console.log('here is repository', data.repository);
 
   const githubLink = () => {
     console.log('send to github', data.repository.url);
     Linking.openURL(data.repository.url);
   };
 
+  const reviewNodes = data
+    ? data.repository.reviews.edges.map((edge) => edge.node)
+    : [];
+
   return (
-    <View style={{ paddingVertical: 30, paddingHorizontal: 20 }}>
-      <RepositoryItem item={data.repository} />
-      <Button text={'Open in GitHub'} onPress={githubLink} />
-    </View>
+    <FlatList
+      data={reviewNodes}
+      style={{ paddingHorizontal: 20 }}
+      ListHeaderComponent={<RepositoryItem item={data.repository} />}
+      renderItem={({ item }) => <ReviewItem review={item} />}
+      keyExtractor={({ id }) => id}
+      ListFooterComponent={
+        <Button text={'Open in GitHub'} onPress={githubLink} />
+      }
+    />
   );
 };
 
