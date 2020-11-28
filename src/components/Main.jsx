@@ -15,6 +15,7 @@ import SignIn from './SignIn';
 import RepositorySingle from './RepoList/RepositorySingle';
 import { useQuery } from '@apollo/react-hooks';
 import { AUTH_USER } from '../graphql/queries';
+import ReviewForm from './RepoList/ReviewForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +56,9 @@ const Main = () => {
       <Switch>
         <Route path='/signin'>
           <SignIn />
+        </Route>
+        <Route path='/review'>
+          <ReviewForm />
         </Route>
         <Route path='/repo/:id'>
           <RepositorySingle />
