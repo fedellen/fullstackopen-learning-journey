@@ -9,11 +9,14 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.body,
     fontFamily: theme.fonts.main,
     fontWeight: theme.fontWeights.normal
+  },
+  darkText: {
+    color: theme.colors.primary
   }
 });
 
-const Text = ({ ...props }) => {
-  const textStyle = [styles.text];
+const Text = ({ color, ...props }) => {
+  const textStyle = [styles.text, color === 'darkText' && styles.darkText];
 
   return <NativeText style={textStyle} {...props} />;
 };
