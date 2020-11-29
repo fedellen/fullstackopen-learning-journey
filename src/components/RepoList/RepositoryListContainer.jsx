@@ -17,7 +17,6 @@ export class RepositoryListContainer extends React.Component {
   };
 
   render() {
-    console.log(this);
     return (
       <FlatList
         data={this.props.repositoryNodes}

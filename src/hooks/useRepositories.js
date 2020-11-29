@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import { GET_REPOSITORIES } from '../graphql/queries';
 
-const useRepositories = (filter, keyword) => {
+const useRepositories = (filter, searchKeyword) => {
   let orderDirection = 'DESC';
   let orderBy = 'CREATED_AT';
 
@@ -15,7 +15,7 @@ const useRepositories = (filter, keyword) => {
 
   const { data, loading } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
-    variables: { orderDirection, orderBy, keyword }
+    variables: { orderDirection, orderBy, searchKeyword }
   });
 
   if (loading) return 'Loading';
