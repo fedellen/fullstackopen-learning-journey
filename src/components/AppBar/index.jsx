@@ -20,7 +20,10 @@ const AppBar = ({ user }) => {
       <ScrollView horizontal>
         <AppBarTab name='Repositories' link='/' />
         {user === null ? (
-          <AppBarTab name='Sign In' link='/signin' />
+          <>
+            <AppBarTab name='Sign In' link='/signin' />
+            <AppBarTab name='Sign Up' link='/signup' />
+          </>
         ) : (
           <>
             <AppBarTab name='Sign Out' link='/' />

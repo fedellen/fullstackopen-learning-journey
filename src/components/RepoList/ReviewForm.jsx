@@ -41,7 +41,7 @@ const ReviewForm = () => {
       const { data } = await mutate({
         variables: { repoUsername, repoName, rating, review }
       });
-      console.log('Thanks for submitting a review 🔥', data);
+      console.log('Thanks for submitting a review 🔥');
       history.push(`/repo/${data.createReview.repositoryId}`);
     } catch (error) {
       console.log('We have an error here in ReviewForm => onSubmit 😲', error);

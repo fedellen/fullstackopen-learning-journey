@@ -16,6 +16,7 @@ import RepositorySingle from './RepoList/RepositorySingle';
 import { useQuery } from '@apollo/react-hooks';
 import { AUTH_USER } from '../graphql/queries';
 import ReviewForm from './RepoList/ReviewForm';
+import SignUp from './SignIn/SignUp';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +47,7 @@ const Main = () => {
 
   // if user exists and curently on sign in page, push to repos
   // still getting render error here !!!
+  // new idea: move this back to sign-in 🤔
   if (location.pathname === '/signin' && user) {
     history.push('/');
   }
@@ -54,6 +56,9 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar user={user} />
       <Switch>
+        <Route path='/signup'>
+          <SignUp />
+        </Route>
         <Route path='/signin'>
           <SignIn />
         </Route>
