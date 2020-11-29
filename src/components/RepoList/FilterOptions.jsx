@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 3,
     borderColor: theme.colors.secondary,
-    marginTop: 15,
+    marginVertical: 15,
     padding: 20,
     fontSize: theme.fontSizes.subheading
   },
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 3,
     borderColor: theme.colors.secondary,
-    marginTop: 15,
+    marginVertical: 15,
     padding: 20,
     fontSize: theme.fontSizes.subheading
   },
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 3,
     borderColor: theme.colors.secondary,
-    marginTop: 15,
+    marginVertical: 15,
     padding: 20,
     fontSize: theme.fontSizes.subheading
   }
