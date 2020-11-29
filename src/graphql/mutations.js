@@ -11,3 +11,41 @@ export const AUTHORIZE = gql`
     }
   }
 `;
+
+export const CREATE_REVIEW = gql`
+  mutation createReview(
+    $repoName: String!
+    $repoUsername: String!
+    $rating: Int!
+    $review: String
+  ) {
+    createReview(
+      review: {
+        repositoryName: $repoName
+        ownerName: $repoUsername
+        rating: $rating
+        text: $review
+      }
+    ) {
+      id
+      user {
+        username
+      }
+      repository {
+        id
+        fullName
+        description
+        ownerAvatarUrl
+        language
+        stargazersCount
+        forksCount
+        reviewCount
+        ratingAverage
+      }
+      repositoryId
+      rating
+      createdAt
+      text
+    }
+  }
+`;

@@ -45,9 +45,9 @@ const Main = () => {
   }
 
   // if user exists and curently on sign in page, push to repos
+  // still getting render error here !!!
   if (location.pathname === '/signin' && user) {
     history.push('/');
-    return null;
   }
 
   return (

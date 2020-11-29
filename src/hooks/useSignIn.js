@@ -16,10 +16,12 @@ const useSignIn = () => {
       console.log('Welcome ', data.authorize.username);
       apolloClient.resetStore();
     } catch (error) {
-      console.log('we have an error here');
+      console.log('we have an error here:', error);
     }
   };
   return [signIn, result];
 };
 
 export default useSignIn;
+
+// rzwitserloot/lombok

@@ -18,6 +18,10 @@ export const RepositoryListContainer = ({ repositories }) => {
     ? repositories.edges.map((edge) => edge.node)
     : [];
 
+  if (!repositoryNodes) {
+    return null;
+  }
+
   return (
     <FlatList
       data={repositoryNodes}
