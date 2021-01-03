@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5f9c8f61b7d57057f206a674
+Content-Type: application/json
+
+{
+  "title"   : "This is Great",
+  "author"  : "Changed that one",
+  "url"     : "http://react-is-great.dev.xD",
+  "likes"   : 3
+}

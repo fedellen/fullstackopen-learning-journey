@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyZWRkeUR1ZGVHdXkiLCJpZCI6IjVmYTA4Y2MwNTY1ODMzYTA1ZDliOTM5NCIsImlhdCI6MTYwNDM3NjM5M30.YB5DTvk7H7V9wRsLcv-Rvh-R8rmXxw51p3vGpil2hwo
+
+{
+  "title"   : "Cuddling with Mommy",
+  "author"  : "Frederick Dude Guy",
+  "url"     : "http://freddydudeguy.com/cuddling-with-mommy",
+  "likes"   : 25
+}
