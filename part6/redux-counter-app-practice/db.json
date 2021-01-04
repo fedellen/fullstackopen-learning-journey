@@ -1,0 +1,54 @@
+{
+  "notes": [
+    {
+      "content": "the app state is in redux store",
+      "important": true,
+      "id": 1
+    },
+    {
+      "content": "state changes are made with actions",
+      "important": false,
+      "id": 2
+    },
+    {
+      "content": "This is donde!",
+      "important": false,
+      "id": 3
+    },
+    {
+      "content": "This is also donde!",
+      "important": false,
+      "id": 4
+    },
+    {
+      "content": "let the funk drop",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": ":)",
+      "important": false,
+      "id": 6
+    },
+    {
+      "content": "get some notes",
+      "important": false,
+      "id": 7
+    },
+    {
+      "content": "this osda",
+      "important": false,
+      "id": 8
+    },
+    {
+      "content": "Double fart",
+      "important": false,
+      "id": 9
+    },
+    {
+      "content": "Sincerely, same",
+      "important": false,
+      "id": 10
+    }
+  ]
+}
