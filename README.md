@@ -9,6 +9,7 @@ Many of these are smaller projects for learning a particular concept or technolo
 - Phonebook App - [ [Frontend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part2/phonebook) | [Backend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part3/phonebook-backend) ]
 - Bloglist App - [ [Frontend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part5/bloglist-frontend) | [Backend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part4/bloglist-backend) ]
 - GraphQL Libary App - [ [Frontend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part8/graphql-library-frontend) | [Backend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part8/graphql-library-backend) ]
+- Patientor Typescript Project - [ [Frontend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part9/patientor-frontend) | [Backend](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part9/patientor-backend) ]
 - React Native Rate Repositories App - [ [App](https://github.com/fedellen/fullstackopen-learning-journey/tree/master/part10/rate-repositories-app) ]
 
 ## Technologies Used
@@ -18,8 +19,9 @@ Many of these are smaller projects for learning a particular concept or technolo
 - Redux
 - MongoDB
 - GraphQL
-- Apollo Server/Client
+- Apollo Server / Client
 - Typescript
 - React Native
+- Git / Github
 
 I've learned a tremendous amount about web development from this course. The exercises were challenging and really drove my programming skills to a new level. I would highly recommend it to anyone interested in modern development using Javascript and React 💻
