@@ -24,4 +24,4 @@ Many of these are smaller projects for learning a particular concept or technolo
 - React Native
 - Git / Github
 
-I've learned a tremendous amount about web development from this course. The exercises were challenging and really drove my programming skills to a new level. I would highly recommend it to anyone interested in modern development using Javascript and React 💻
+I've learned a tremendous amount about web development from this course. The exercises were challenging and really drove my programming skills to a new level. I would highly recommend it to anyone interested in modern development using JavaScript and React 💻
